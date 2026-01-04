@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Profile - Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <aside class="sidebar d-flex flex-column p-3">
+      <div class="brand pb-3 mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <div
+            class="rounded-circle bg-primary"
+            style="width: 38px; height: 38px"
+          ></div>
+          <div>
+            <div class="fw-bold">Admin Panel</div>
+            <div class="small-muted">Bootstrap 5 + jQuery</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav nav-pills flex-column" id="sidebarNav">
+        <a class="nav-link active" href="usersTraking.html">User Tracking</a>
+        <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
+        <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+        <a class="nav-link" href="product-entry.html">Product Entry</a>
+        <a class="nav-link" href="product-buy.html">Product Buy</a>
+        <a class="nav-link" href="invest-package-entry.html"
+          >Invest Package Entry</a
+        >
+      </nav>
+
+      <div
+        class="mt-auto pt-3"
+        style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+      >
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-semibold">Session</div>
+            <div class="small-muted">Admin</div>
+          </div>
+          <span
+            class="badge rounded-pill"
+            style="
+              background: #eef2ff;
+              color: #3730a3;
+              border: 1px solid #e0e7ff;
+            "
+            >Online</span
+          >
+        </div>
+      </div>
+    </aside>
+  </head>
+
+  <body>
+    <div class="d-flex min-vh-100">
+      <!-- Sidebar -->
+      <aside class="sidebar p-3 d-flex flex-column">
+        <div
+          class="pb-3 mb-3"
+          style="border-bottom: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="fw-bold">Admin Panel</div>
+          <div class="small-muted">Bootstrap 5 + jQuery</div>
+        </div>
+
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link active" href="users.html">1. User Tracking</a>
+          <a
+            class="nav-link"
+            href="#"
+            onclick="alert('Create lotary-entry page next');return false;"
+            >2. Lottery Entry</a
+          >
+          <a
+            class="nav-link"
+            href="#"
+            onclick="alert('Create lotary-drow page next');return false;"
+            >3. Lottery Draw</a
+          >
+          <a
+            class="nav-link"
+            href="#"
+            onclick="alert('Create product-entry page next');return false;"
+            >4. Product Entry</a
+          >
+          <a
+            class="nav-link"
+            href="#"
+            onclick="alert('Create product-buy page next');return false;"
+            >5. Product Buy</a
+          >
+          <a
+            class="nav-link"
+            href="#"
+            onclick="alert('Create invest-package-entry page next');return false;"
+            >6. Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <a class="btn btn-outline-light w-100" href="users.html"
+            >← Back to Users</a
+          >
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-grow-1">
+        <div
+          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <div class="fw-bold fs-5">User Profile</div>
+            <div class="small-muted">Details for selected user</div>
+          </div>
+          <div class="mono small text-muted">
+            UID: <span id="uidText">—</span>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="soft-card bg-white p-3">
+            <div id="notFound" class="d-none">
+              <div
+                class="p-4 rounded-4"
+                style="background: #f8fafc; border: 1px dashed #cbd5e1"
+              >
+                <div class="fw-semibold">User not found</div>
+                <div class="small-muted">
+                  Invalid uid, please go back and select a user again.
+                </div>
+                <a class="btn btn-primary mt-3" href="users.html"
+                  >Back to Users</a
+                >
+              </div>
+            </div>
+
+            <div id="profilePanel" class="d-none">
+              <!-- Profile Card -->
+              <div class="card border-0 soft-card" style="box-shadow: none">
+                <div class="card-body">
+                  <div
+                    class="d-flex align-items-start justify-content-between flex-wrap gap-3"
+                  >
+                    <div class="d-flex align-items-center gap-3">
+                      <div
+                        class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center"
+                        style="width: 58px; height: 58px"
+                      >
+                        <span class="fw-bold text-primary" id="profileInitials"
+                          >U</span
+                        >
+                      </div>
+                      <div>
+                        <div class="h5 mb-0" id="profileName">—</div>
+                        <div class="small-muted">
+                          <span class="mono" id="profileId">—</span> •
+                          <span id="profilePhone">—</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-end">
+                      <span class="badge rounded-pill" id="profileStatusBadge"
+                        >—</span
+                      >
+                      <div class="small-muted mt-1">
+                        Joined: <span id="profileJoined">—</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr class="my-3" />
+
+                  <div class="row g-2">
+                    <div class="col-12 col-md-6">
+                      <div class="small-muted">Father Name</div>
+                      <div class="fw-semibold" id="profileFather">—</div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="small-muted">Email</div>
+                      <div class="fw-semibold" id="profileEmail">—</div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="small-muted">Address</div>
+                      <div class="fw-semibold" id="profileAddress">—</div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="small-muted">Last Login</div>
+                      <div class="fw-semibold" id="profileLastLogin">—</div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <div class="small-muted">Rank</div>
+                      <div class="fw-semibold" id="profileRank">—</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Buttons -->
+              <div class="mt-3">
+                <div class="fw-bold mb-2">Quick Details</div>
+                <div class="d-flex flex-wrap btn-grid" id="detailButtons"></div>
+                <div class="small-muted mt-2" id="detailOutput">
+                  Click a button to see details.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(function () {
+        // Same demo data (later you can load from API)
+        const users = [
+          {
+            id: "U-1001",
+            name: "Rahim Uddin",
+            father: "Karim Uddin",
+            phone: "01711-000111",
+            email: "rahim@example.com",
+            address: "Dhaka, Bangladesh",
+            status: "Active",
+            profileRank: "Gold",
+            joined: "2025-02-12",
+            lastLogin: "2026-01-03 22:10",
+            stats: {
+              totalCashIn: 145000,
+              totalCashOut: 88000,
+              walletBalance: 57000,
+              totalProductsBought: 12,
+              totalLotteryEntries: 6,
+              totalInvestPackages: 2,
+              lastTransaction: "2026-01-02 18:40",
+              kycStatus: "Verified",
+              referralCount: 14,
+              points: 320,
+              rank: "Silver",
+              accountFlags: "None",
+              ipLast: "103.1.XX.XX",
+              deviceLast: "Android",
+            },
+          },
+          {
+            id: "U-1002",
+            name: "Ayesha Khan",
+            father: "Jamal Khan",
+            phone: "01822-333444",
+            email: "ayesha@example.com",
+            address: "Chattogram, Bangladesh",
+            profileRank: "Silver",
+            status: "Active",
+            joined: "2024-11-08",
+            lastLogin: "2026-01-04 09:12",
+            stats: {
+              totalCashIn: 92000,
+              totalCashOut: 15000,
+              walletBalance: 77000,
+              totalProductsBought: 5,
+              totalLotteryEntries: 15,
+              totalInvestPackages: 1,
+              lastTransaction: "2026-01-04 08:59",
+              kycStatus: "Pending",
+              referralCount: 3,
+              points: 110,
+              rank: "Bronze",
+              accountFlags: "Manual Review",
+              ipLast: "27.147.XX.XX",
+              deviceLast: "iPhone",
+            },
+          },
+          {
+            id: "U-1003",
+            name: "Sohel Mia",
+            father: "Babul Mia",
+            phone: "01999-555666",
+            email: "sohel@example.com",
+            address: "Sylhet, Bangladesh",
+            profileRank: "Bronze",
+            status: "Blocked",
+            joined: "2023-06-21",
+            lastLogin: "2025-12-28 16:05",
+            stats: {
+              totalCashIn: 25000,
+              totalCashOut: 24500,
+              walletBalance: 500,
+              totalProductsBought: 1,
+              totalLotteryEntries: 2,
+              totalInvestPackages: 0,
+              lastTransaction: "2025-12-15 12:20",
+              kycStatus: "Rejected",
+              referralCount: 0,
+              points: 10,
+              rank: "Starter",
+              accountFlags: "Chargeback Risk",
+              ipLast: "45.112.XX.XX",
+              deviceLast: "Windows",
+            },
+          },
+        ];
+
+        const detailButtons = [
+          { key: "totalCashIn", label: "Total Cash In", money: true },
+          { key: "totalCashOut", label: "Total Cash Out", money: true },
+          { key: "walletBalance", label: "Wallet Balance", money: true },
+          { key: "totalProductsBought", label: "Products Bought" },
+          { key: "totalLotteryEntries", label: "Lottery Entries" },
+          { key: "totalInvestPackages", label: "Invest Packages" },
+          { key: "lastTransaction", label: "Last Transaction" },
+          { key: "lastLogin", label: "Last Login" },
+          { key: "kycStatus", label: "KYC Status" },
+          { key: "referralCount", label: "Referrals" },
+          { key: "points", label: "Points" },
+          { key: "rank", label: "User Rank" },
+          { key: "accountFlags", label: "Account Flags" },
+          { key: "ipLast", label: "Last IP" },
+          { key: "deviceLast", label: "Last Device" },
+        ];
+
+        function getParam(name) {
+          const url = new URL(window.location.href);
+          return url.searchParams.get(name);
+        }
+
+        function initialsFromName(name) {
+          const parts = String(name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+          if (!parts.length) return "U";
+          const a = parts[0][0] || "U";
+          const b = parts.length > 1 ? parts[parts.length - 1][0] || "" : "";
+          return (a + b).toUpperCase();
+        }
+
+        function money(n) {
+          const num = Number(n);
+          if (Number.isNaN(num)) return String(n);
+          return "৳ " + num.toLocaleString("en-US");
+        }
+
+        function showUser(u) {
+          $("#profilePanel").removeClass("d-none");
+
+          $("#profileInitials").text(initialsFromName(u.name));
+          $("#profileName").text(u.name);
+          $("#profileId").text(u.id);
+          $("#profilePhone").text(u.phone);
+          $("#profileFather").text(u.father);
+          $("#profileEmail").text(u.email);
+          $("#profileAddress").text(u.address);
+          $("#profileJoined").text(u.joined);
+          $("#profileLastLogin").text(u.lastLogin);
+          $("#profileRank").text(u.profileRank);
+
+          const badgeClass =
+            u.status === "Active"
+              ? "bg-success"
+              : u.status === "Blocked"
+              ? "bg-danger"
+              : "bg-secondary";
+          $("#profileStatusBadge")
+            .removeClass("bg-success bg-danger bg-secondary")
+            .addClass(badgeClass)
+            .text(u.status);
+
+          // Render buttons
+          const $btns = $("#detailButtons").empty();
+          detailButtons.forEach((d) => {
+            $btns.append(`
+        <button class="btn btn-outline-primary btn-sm" data-k="${
+          d.key
+        }" data-money="${d.money ? 1 : 0}">
+          ${d.label}
+        </button>
+      `);
+          });
+
+          $("#detailOutput").text("Click a button to see details.");
+        }
+
+        const uid = getParam("uid");
+        $("#uidText").text(uid || "—");
+
+        if (!uid) {
+          $("#notFound").removeClass("d-none");
+          return;
+        }
+
+        const user = users.find((x) => x.id === uid);
+        if (!user) {
+          $("#notFound").removeClass("d-none");
+          return;
+        }
+
+        showUser(user);
+
+        // Detail button click
+        $("#detailButtons").on("click", "button", function () {
+          const key = $(this).data("k");
+          const isMoney = $(this).data("money") == 1;
+
+          let val = "—";
+          if (key === "lastLogin") val = user.lastLogin;
+          else if (
+            user.stats &&
+            Object.prototype.hasOwnProperty.call(user.stats, key)
+          )
+            val = user.stats[key];
+
+          if (isMoney) val = money(val);
+
+          $("#detailOutput").html(
+            `<span class="fw-semibold">${key}</span>: ${val}`
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

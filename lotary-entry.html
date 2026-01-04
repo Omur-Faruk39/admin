@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lottery Entry - Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --sidebar-w: 280px;
+      }
+      body {
+        background: #f6f7fb;
+      }
+      .sidebar {
+        width: var(--sidebar-w);
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .sidebar .nav-link {
+        color: #cbd5e1;
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.15rem 0;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidebar .nav-link.active {
+        background: rgba(59, 130, 246, 0.22);
+        color: #fff;
+      }
+      .soft-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+      .lot-card {
+        cursor: pointer;
+        transition: transform 0.08s ease;
+      }
+      .lot-card:hover {
+        transform: translateY(-2px);
+      }
+      .small-muted {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="d-flex min-vh-100">
+      <!-- Sidebar -->
+      <aside class="sidebar d-flex flex-column p-3">
+        <div class="brand pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <div
+              class="rounded-circle bg-primary"
+              style="width: 38px; height: 38px"
+            ></div>
+            <div>
+              <div class="fw-bold">Admin Panel</div>
+              <div class="small-muted">Bootstrap 5 + jQuery</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav nav-pills flex-column" id="sidebarNav">
+          <a class="nav-link" href="usersTraking.html">User Tracking</a>
+          <a class="nav-link active" href="lotary-entry.html">Lottery Entry</a>
+          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+          <a class="nav-link" href="product-entry.html">Product Entry</a>
+          <a class="nav-link" href="product-buy.html">Product Buy</a>
+          <a class="nav-link" href="invest-package-entry.html"
+            >Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">Session</div>
+              <div class="small-muted">Admin</div>
+            </div>
+            <span
+              class="badge rounded-pill"
+              style="
+                background: #eef2ff;
+                color: #3730a3;
+                border: 1px solid #e0e7ff;
+              "
+              >Online</span
+            >
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-grow-1">
+        <div
+          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <div class="fw-bold fs-5">Lottery Entry</div>
+            <div class="small-muted">Manage available lotteries</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" id="btnAddNew">
+              + Add New Lottery
+            </button>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="fw-bold">Available Lotteries</div>
+            <span
+              class="badge bg-primary-subtle text-primary border border-primary-subtle"
+              id="lotCount"
+              >0</span
+            >
+          </div>
+
+          <div class="row g-3" id="lotteryGrid">
+            <!-- cards by jQuery -->
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 16px">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Lottery</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Lottery Name</label>
+                <input
+                  class="form-control"
+                  id="addName"
+                  placeholder="e.g. New Year Mega Draw"
+                />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Ticket Price</label>
+                <input
+                  class="form-control"
+                  id="addPrice"
+                  type="number"
+                  min="0"
+                  placeholder="e.g. 50"
+                />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Lottery Description</label>
+                <textarea
+                  class="form-control"
+                  id="addDesc"
+                  rows="3"
+                  placeholder="Description..."
+                ></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Start Date</label>
+                <input class="form-control" id="addStart" type="date" />
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Expire Date</label>
+                <input class="form-control" id="addExpire" type="date" />
+              </div>
+            </div>
+
+            <div class="alert alert-warning mt-3 mb-0 small">
+              This is UI-only demo. Data is saved in
+              <span class="mono">localStorage</span>.
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button class="btn btn-primary" id="btnCreateLottery">
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      $(function () {
+        const STORAGE_KEY = "admin_lotteries_v1";
+
+        function seedIfEmpty() {
+          const existing = localStorage.getItem(STORAGE_KEY);
+          if (existing) return;
+
+          const seed = [
+            {
+              id: "L-2001",
+              name: "Weekly Lucky Draw",
+              description:
+                "Win cash prizes every week. Buy tickets and participate.",
+              startDate: "2026-01-01",
+              expireDate: "2026-01-31",
+              ticketPrice: 50,
+            },
+            {
+              id: "L-2002",
+              name: "Mega Festival Lottery",
+              description:
+                "Festival special lottery with huge prizes and bonuses.",
+              startDate: "2025-12-15",
+              expireDate: "2026-02-15",
+              ticketPrice: 100,
+            },
+            {
+              id: "L-2003",
+              name: "Monthly Gold Draw",
+              description: "Monthly draw. Bigger ticket price, bigger rewards.",
+              startDate: "2025-12-01",
+              expireDate: "2026-01-30",
+              ticketPrice: 200,
+            },
+          ];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
+        }
+
+        function loadLotteries() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          } catch (e) {
+            return [];
+          }
+        }
+
+        function saveLotteries(list) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+
+        function money(n) {
+          const num = Number(n);
+          if (Number.isNaN(num)) return String(n);
+          return "৳ " + num.toLocaleString("en-US");
+        }
+
+        function escapeHtml(s) {
+          return String(s).replace(
+            /[&<>"'`=\/]/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+                "/": "&#x2F;",
+                "`": "&#x60;",
+                "=": "&#x3D;",
+              }[c])
+          );
+        }
+
+        function render() {
+          const lots = loadLotteries();
+          $("#lotCount").text(lots.length);
+
+          const $grid = $("#lotteryGrid").empty();
+          if (!lots.length) {
+            $grid.append(`
+        <div class="col-12">
+          <div class="soft-card bg-white p-4 text-center">
+            <div class="fw-semibold">No lotteries available</div>
+            <div class="small-muted">Click “Add New Lottery” to create one.</div>
+          </div>
+        </div>
+      `);
+            return;
+          }
+
+          lots.forEach((l) => {
+            $grid.append(`
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="soft-card bg-white p-3 lot-card" data-id="${escapeHtml(
+            l.id
+          )}">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="fw-bold">${escapeHtml(l.name)}</div>
+                <div class="small-muted">${escapeHtml(l.description)}</div>
+              </div>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle">${escapeHtml(
+                l.id
+              )}</span>
+            </div>
+
+            <hr class="my-3">
+
+            <div class="row g-2 small">
+              <div class="col-6">
+                <div class="text-muted">Start Date</div>
+                <div class="fw-semibold">${escapeHtml(l.startDate || "—")}</div>
+              </div>
+              <div class="col-6">
+                <div class="text-muted">Expire Date</div>
+                <div class="fw-semibold">${escapeHtml(
+                  l.expireDate || "—"
+                )}</div>
+              </div>
+              <div class="col-12">
+                <div class="text-muted">Ticket Price</div>
+                <div class="fw-semibold">${escapeHtml(
+                  money(l.ticketPrice)
+                )}</div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-end">
+              <span class="btn btn-outline-primary btn-sm">Edit →</span>
+            </div>
+          </div>
+        </div>
+      `);
+          });
+        }
+
+        // click card -> edit page
+        $("#lotteryGrid").on("click", ".lot-card", function () {
+          const id = $(this).data("id");
+          window.location.href =
+            "lotary-edit.html?id=" + encodeURIComponent(id);
+        });
+
+        // add modal
+        const addModal = new bootstrap.Modal(
+          document.getElementById("addModal")
+        );
+
+        $("#btnAddNew").on("click", function () {
+          $("#addName,#addDesc,#addStart,#addExpire,#addPrice").val("");
+          addModal.show();
+        });
+
+        function makeId(existingList) {
+          // simple id generator: L-2000 + length + random
+          const base = 2000 + existingList.length + 1;
+          return "L-" + base;
+        }
+
+        $("#btnCreateLottery").on("click", function () {
+          const name = $("#addName").val().trim();
+          const desc = $("#addDesc").val().trim();
+          const start = $("#addStart").val();
+          const expire = $("#addExpire").val();
+          const price = $("#addPrice").val();
+
+          if (!name || !desc || !start || !expire || !price) {
+            alert("Please fill all fields.");
+            return;
+          }
+
+          const list = loadLotteries();
+          list.unshift({
+            id: makeId(list),
+            name,
+            description: desc,
+            startDate: start,
+            expireDate: expire,
+            ticketPrice: Number(price),
+          });
+          saveLotteries(list);
+          addModal.hide();
+          render();
+        });
+
+        seedIfEmpty();
+        render();
+      });
+    </script>
+  </body>
+</html>

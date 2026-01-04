@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Users - Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --sidebar-w: 280px;
+      }
+      body {
+        background: #f6f7fb;
+      }
+      .sidebar {
+        width: var(--sidebar-w);
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .sidebar .nav-link {
+        color: #cbd5e1;
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.15rem 0;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidebar .nav-link.active {
+        background: rgba(59, 130, 246, 0.22);
+        color: #fff;
+      }
+      .soft-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+      .user-row {
+        cursor: pointer;
+      }
+      .user-row:hover {
+        background: #f1f5f9;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+      .small-muted {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="d-flex min-vh-100">
+      <!-- Sidebar -->
+      <aside class="sidebar d-flex flex-column p-3">
+        <div class="brand pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <div
+              class="rounded-circle bg-primary"
+              style="width: 38px; height: 38px"
+            ></div>
+            <div>
+              <div class="fw-bold">Admin Panel</div>
+              <div class="small-muted">Bootstrap 5 + jQuery</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav nav-pills flex-column" id="sidebarNav">
+          <a class="nav-link active" href="usersTraking.html">User Tracking</a>
+          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
+          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+          <a class="nav-link" href="product-entry.html">Product Entry</a>
+          <a class="nav-link" href="product-buy.html">Product Buy</a>
+          <a class="nav-link" href="invest-package-entry.html"
+            >Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">Session</div>
+              <div class="small-muted">Admin</div>
+            </div>
+            <span
+              class="badge rounded-pill"
+              style="
+                background: #eef2ff;
+                color: #3730a3;
+                border: 1px solid #e0e7ff;
+              "
+              >Online</span
+            >
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-grow-1">
+        <div class="bg-white border-bottom px-4 py-3">
+          <div class="fw-bold fs-5">User Tracking</div>
+          <div class="small-muted">Search users and open profile page</div>
+        </div>
+
+        <div class="p-4">
+          <div class="soft-card bg-white p-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="fw-bold">User List</div>
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle"
+                id="userCountBadge"
+                >0 users</span
+              >
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text">Search</span>
+              <input
+                class="form-control"
+                id="userSearch"
+                placeholder="Search by name..."
+              />
+              <button class="btn btn-primary" id="btnClearSearch">Clear</button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr class="text-nowrap">
+                    <th>User</th>
+                    <th>ID</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+              </table>
+            </div>
+
+            <div class="small-muted mt-3">
+              Click a user to open profile page.
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(function () {
+        // Demo data (same should exist in profile page)
+        const users = [
+          {
+            id: "U-1001",
+            name: "Rahim Uddin",
+            phone: "01711-000111",
+            status: "Active",
+          },
+          {
+            id: "U-1002",
+            name: "Ayesha Khan",
+            phone: "01822-333444",
+            status: "Active",
+          },
+          {
+            id: "U-1003",
+            name: "Sohel Mia",
+            phone: "01999-555666",
+            status: "Blocked",
+          },
+        ];
+
+        function escapeHtml(s) {
+          return String(s).replace(
+            /[&<>"'`=\/]/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+                "/": "&#x2F;",
+                "`": "&#x60;",
+                "=": "&#x3D;",
+              }[c])
+          );
+        }
+
+        function renderUserTable(filterText) {
+          const q = (filterText || "").toLowerCase();
+          const filtered = users.filter((u) =>
+            u.name.toLowerCase().includes(q)
+          );
+
+          $("#userCountBadge").text(filtered.length + " users");
+          const $tbody = $("#userTableBody").empty();
+
+          if (!filtered.length) {
+            $tbody.append(
+              `<tr><td colspan="3" class="text-center text-muted py-4">No users found.</td></tr>`
+            );
+            return;
+          }
+
+          filtered.forEach((u) => {
+            const badge = u.status === "Active" ? "bg-success" : "bg-danger";
+            $tbody.append(`
+        <tr class="user-row" data-user-id="${escapeHtml(u.id)}">
+          <td>
+            <div class="fw-semibold">${escapeHtml(u.name)}</div>
+            <div class="text-muted small">${escapeHtml(u.phone)}</div>
+          </td>
+          <td class="mono">${escapeHtml(u.id)}</td>
+          <td><span class="badge ${badge}">${escapeHtml(u.status)}</span></td>
+        </tr>
+      `);
+          });
+        }
+
+        $("#userTableBody").on("click", ".user-row", function () {
+          const uid = $(this).data("user-id");
+          // Redirect to separate profile page with uid in URL
+          window.location.href =
+            "user-profile.html?uid=" + encodeURIComponent(uid);
+        });
+
+        $("#userSearch").on("input", function () {
+          renderUserTable($(this).val());
+        });
+        $("#btnClearSearch").on("click", function () {
+          $("#userSearch").val("");
+          renderUserTable("");
+        });
+
+        renderUserTable("");
+      });
+    </script>
+  </body>
+</html>

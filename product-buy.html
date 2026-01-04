@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Buy - Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --sidebar-w: 280px;
+      }
+      body {
+        background: #f6f7fb;
+      }
+      .app-shell {
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: var(--sidebar-w);
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .sidebar .brand {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sidebar .nav-link {
+        color: #cbd5e1;
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.15rem 0;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidebar .nav-link.active {
+        background: rgba(59, 130, 246, 0.22);
+        color: #fff;
+      }
+
+      .content {
+        flex: 1;
+      }
+      .page-header {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .soft-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .small-muted {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+      .req::after {
+        content: " *";
+        color: #dc3545;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="d-flex app-shell">
+      <!-- Sidebar (SAME STYLE AS USER TRACKING) -->
+      <aside class="sidebar d-flex flex-column p-3">
+        <div class="brand pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <div
+              class="rounded-circle bg-primary"
+              style="width: 38px; height: 38px"
+            ></div>
+            <div>
+              <div class="fw-bold">Admin Panel</div>
+              <div class="small-muted">Bootstrap 5 + jQuery</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav nav-pills flex-column" id="sidebarNav">
+          <a class="nav-link" href="usersTraking.html">User Tracking</a>
+          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
+          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+          <a class="nav-link" href="product-entry.html">Product Entry</a>
+          <a class="nav-link active" href="product-buy.html">Product Buy</a>
+          <a class="nav-link" href="invest-package-entry.html"
+            >Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">Session</div>
+              <div class="small-muted">Admin</div>
+            </div>
+            <span
+              class="badge rounded-pill"
+              style="
+                background: #eef2ff;
+                color: #3730a3;
+                border: 1px solid #e0e7ff;
+              "
+              >Online</span
+            >
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <main class="content d-flex flex-column">
+        <div
+          class="page-header px-4 py-3 d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <div class="fw-bold fs-5">Product Buy</div>
+            <div class="small-muted">
+              Create buying record and manage stock (demo)
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" id="btnSeedBuy">
+              Seed Demo Buy
+            </button>
+            <button class="btn btn-outline-danger" id="btnClearBuys">
+              Clear Buys
+            </button>
+          </div>
+        </div>
+
+        <div class="p-4 flex-grow-1">
+          <!-- Buy Form -->
+          <div class="soft-card bg-white p-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="fw-bold">Buy Product Form</div>
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle mono"
+                id="formMode"
+                >MODE: CREATE</span
+              >
+            </div>
+
+            <form id="buyForm">
+              <input type="hidden" id="buyId" />
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="form-label req">Product</label>
+                  <select class="form-select" id="product_id">
+                    <option value="">Select product...</option>
+                  </select>
+                  <div class="small-muted mt-1">
+                    Products load from
+                    <span class="mono">admin_products_v1</span> (localStorage).
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">buying dates</label>
+                  <input class="form-control" id="buying_date" type="date" />
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">continue days</label>
+                  <input
+                    class="form-control"
+                    id="continue_days"
+                    type="number"
+                    min="0"
+                    placeholder="e.g. 30"
+                  />
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label req">expire datess</label>
+                  <input class="form-control" id="expire_date" type="date" />
+                  <div class="small-muted mt-1">
+                    Auto-calculated but editable.
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label req">product buy qnty</label>
+                  <input
+                    class="form-control"
+                    id="buy_qty"
+                    type="number"
+                    min="1"
+                    placeholder="e.g. 5"
+                  />
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label req">product in stock</label>
+                  <input
+                    class="form-control"
+                    id="in_stock"
+                    type="number"
+                    min="0"
+                    placeholder="auto"
+                  />
+                  <div class="small-muted mt-1">
+                    Auto from product stock (demo).
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">buying prices</label>
+                  <input
+                    class="form-control"
+                    id="buying_price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">selling pricess</label>
+                  <input
+                    class="form-control"
+                    id="selling_price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label">discount price</label>
+                  <input
+                    class="form-control"
+                    id="discount_price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary" type="submit">Save Buy</button>
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="btnReset"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Buys List -->
+          <!-- <div class="soft-card bg-white p-3 mt-4">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="fw-bold">Buy History</div>
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle"
+                id="buyCount"
+                >0</span
+              >
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr class="text-nowrap">
+                    <th>Buy ID</th>
+                    <th>Product</th>
+                    <th>Buying Date</th>
+                    <th>Expire</th>
+                    <th>Qty</th>
+                    <th>Buy Price</th>
+                    <th>Selling</th>
+                    <th>Discount</th>
+                    <th>Net</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="buyTbody"></tbody>
+              </table>
+            </div>
+          </div> -->
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(function () {
+        // active link highlight
+        const page = (
+          location.pathname.split("/").pop() || "users.html"
+        ).toLowerCase();
+        $("#sidebarNav .nav-link").each(function () {
+          const href = ($(this).attr("href") || "").toLowerCase();
+          if (href === page) $(this).addClass("active");
+        });
+
+        const PRODUCT_KEY = "admin_products_v1";
+        const BUY_KEY = "admin_buys_v1";
+
+        function money(n) {
+          const num = Number(n);
+          if (Number.isNaN(num)) return String(n);
+          return "৳ " + num.toLocaleString("en-US");
+        }
+
+        function loadProducts() {
+          try {
+            return JSON.parse(localStorage.getItem(PRODUCT_KEY) || "[]");
+          } catch (e) {
+            return [];
+          }
+        }
+        function saveProducts(list) {
+          localStorage.setItem(PRODUCT_KEY, JSON.stringify(list));
+        }
+        function loadBuys() {
+          try {
+            return JSON.parse(localStorage.getItem(BUY_KEY) || "[]");
+          } catch (e) {
+            return [];
+          }
+        }
+        function saveBuys(list) {
+          localStorage.setItem(BUY_KEY, JSON.stringify(list));
+        }
+        function newBuyId(list) {
+          return "B-" + (5000 + list.length + 1);
+        }
+
+        function ensureStockFieldExists() {
+          const list = loadProducts();
+          let changed = false;
+          list.forEach((p) => {
+            if (typeof p.stock !== "number") {
+              p.stock = 0;
+              changed = true;
+            }
+          });
+          if (changed) saveProducts(list);
+        }
+
+        function refreshProductDropdown() {
+          const list = loadProducts();
+          const $sel = $("#product_id")
+            .empty()
+            .append(`<option value="">Select product...</option>`);
+          list.forEach((p) => {
+            const stock = typeof p.stock === "number" ? p.stock : 0;
+            $sel.append(
+              `<option value="${p.id}">${p.product_name} (Stock: ${stock})</option>`
+            );
+          });
+        }
+
+        function getProductNameById(pid) {
+          const p = loadProducts().find((x) => x.id === pid);
+          return p ? p.product_name : "—";
+        }
+
+        function calcExpireDate(buyDateStr, days) {
+          if (
+            !buyDateStr ||
+            days === "" ||
+            days === null ||
+            typeof days === "undefined"
+          )
+            return "";
+          const d = new Date(buyDateStr + "T00:00:00");
+          if (isNaN(d.getTime())) return "";
+          d.setDate(d.getDate() + Number(days));
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function updateNetSelling() {
+          const selling = Number($("#selling_price").val());
+          const discount = Number($("#discount_price").val() || 0);
+          if (Number.isNaN(selling)) {
+            $("#net_selling").val("");
+            return;
+          }
+          const net = Math.max(
+            0,
+            selling - (Number.isNaN(discount) ? 0 : discount)
+          );
+          $("#net_selling").val(money(net));
+        }
+
+        function resetForm() {
+          $("#buyId").val("");
+          $("#buyForm")[0].reset();
+          $("#net_selling").val("");
+          $("#formMode").text("MODE: CREATE");
+        }
+
+        $("#product_id").on("change", function () {
+          const pid = $(this).val();
+          if (!pid) return;
+
+          const products = loadProducts();
+          const p = products.find((x) => x.id === pid);
+          if (!p) return;
+
+          $("#in_stock").val(typeof p.stock === "number" ? p.stock : 0);
+
+          if (
+            $("#selling_price").val().trim() === "" &&
+            typeof p.price !== "undefined"
+          )
+            $("#selling_price").val(p.price);
+          if (
+            $("#buying_price").val().trim() === "" &&
+            typeof p.supplier_price !== "undefined"
+          )
+            $("#buying_price").val(p.supplier_price);
+
+          updateNetSelling();
+        });
+
+        $("#buying_date, #continue_days").on("input change", function () {
+          const exp = calcExpireDate(
+            $("#buying_date").val(),
+            $("#continue_days").val()
+          );
+          if (exp) $("#expire_date").val(exp);
+        });
+
+        $("#selling_price, #discount_price").on("input", updateNetSelling);
+
+        function validate() {
+          const required = [
+            "product_id",
+            "buying_date",
+            "continue_days",
+            "expire_date",
+            "buy_qty",
+            "in_stock",
+            "buying_price",
+            "selling_price",
+          ];
+          for (const id of required) {
+            const v = $("#" + id).val();
+            if (!v || String(v).trim() === "") {
+              alert("Please fill required field: " + id);
+              $("#" + id).focus();
+              return false;
+            }
+          }
+          const qty = Number($("#buy_qty").val());
+          const stock = Number($("#in_stock").val());
+          if (Number.isNaN(qty) || qty <= 0) {
+            alert("Buy quantity must be > 0");
+            return false;
+          }
+          if (Number.isNaN(stock) || stock < 0) {
+            alert("Stock must be >= 0");
+            return false;
+          }
+          return true;
+        }
+
+        function renderBuys() {
+          const buys = loadBuys();
+          $("#buyCount").text(buys.length);
+
+          const $tb = $("#buyTbody").empty();
+          if (!buys.length) {
+            $tb.append(
+              `<tr><td colspan="10" class="text-center text-muted py-4">No buys yet.</td></tr>`
+            );
+            return;
+          }
+
+          buys.forEach((b) => {
+            const net = Math.max(
+              0,
+              Number(b.selling_price) - Number(b.discount_price || 0)
+            );
+            $tb.append(`
+        <tr>
+          <td class="mono">${b.id}</td>
+          <td>${getProductNameById(b.product_id)}</td>
+          <td>${b.buying_date}</td>
+          <td>${b.expire_date}</td>
+          <td>${b.buy_qty}</td>
+          <td>${money(b.buying_price)}</td>
+          <td>${money(b.selling_price)}</td>
+          <td>${money(b.discount_price || 0)}</td>
+          <td>${money(net)}</td>
+          <td class="text-end text-nowrap">
+            <button class="btn btn-outline-primary btn-sm btnEdit" data-id="${
+              b.id
+            }">Edit</button>
+            <button class="btn btn-outline-danger btn-sm btnDel" data-id="${
+              b.id
+            }">Delete</button>
+          </td>
+        </tr>
+      `);
+          });
+        }
+
+        $("#buyForm").on("submit", function (e) {
+          e.preventDefault();
+          if (!validate()) return;
+
+          const buys = loadBuys();
+          const products = loadProducts();
+
+          const id = $("#buyId").val().trim();
+          const pid = $("#product_id").val();
+
+          const record = {
+            id: id || newBuyId(buys),
+            product_id: pid,
+            buying_date: $("#buying_date").val(),
+            continue_days: Number($("#continue_days").val()),
+            expire_date: $("#expire_date").val(),
+            buy_qty: Number($("#buy_qty").val()),
+            in_stock: Number($("#in_stock").val()),
+            buying_price: Number($("#buying_price").val()),
+            selling_price: Number($("#selling_price").val()),
+            discount_price: Number($("#discount_price").val() || 0),
+          };
+
+          const pIdx = products.findIndex((p) => p.id === pid);
+          if (pIdx !== -1) {
+            const currentStock =
+              typeof products[pIdx].stock === "number"
+                ? products[pIdx].stock
+                : 0;
+
+            if (!id) {
+              products[pIdx].stock = currentStock + record.buy_qty;
+            } else {
+              const old = buys.find((x) => x.id === id);
+              const oldQty = old ? Number(old.buy_qty) : 0;
+              products[pIdx].stock = currentStock + (record.buy_qty - oldQty);
+            }
+            saveProducts(products);
+          }
+
+          if (!id) {
+            buys.unshift(record);
+            saveBuys(buys);
+            alert("Buy saved!");
+          } else {
+            const idx = buys.findIndex((x) => x.id === id);
+            if (idx === -1) {
+              alert("Buy not found.");
+              return;
+            }
+            buys[idx] = record;
+            saveBuys(buys);
+            alert("Buy updated!");
+          }
+
+          refreshProductDropdown();
+          renderBuys();
+          resetForm();
+        });
+
+        $("#buyTbody").on("click", ".btnEdit", function () {
+          const id = $(this).data("id");
+          const b = loadBuys().find((x) => x.id === id);
+          if (!b) return;
+
+          $("#buyId").val(b.id);
+          $("#product_id").val(b.product_id);
+          $("#buying_date").val(b.buying_date);
+          $("#continue_days").val(b.continue_days);
+          $("#expire_date").val(b.expire_date);
+          $("#buy_qty").val(b.buy_qty);
+          $("#in_stock").val(b.in_stock);
+          $("#buying_price").val(b.buying_price);
+          $("#selling_price").val(b.selling_price);
+          $("#discount_price").val(b.discount_price);
+
+          $("#formMode").text("MODE: EDIT");
+          updateNetSelling();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        $("#buyTbody").on("click", ".btnDel", function () {
+          const id = $(this).data("id");
+          if (!confirm("Delete this buy record?")) return;
+
+          const buys = loadBuys();
+          const b = buys.find((x) => x.id === id);
+
+          if (b) {
+            const products = loadProducts();
+            const pIdx = products.findIndex((p) => p.id === b.product_id);
+            if (pIdx !== -1) {
+              const currentStock =
+                typeof products[pIdx].stock === "number"
+                  ? products[pIdx].stock
+                  : 0;
+              products[pIdx].stock = Math.max(
+                0,
+                currentStock - Number(b.buy_qty)
+              );
+              saveProducts(products);
+            }
+          }
+
+          saveBuys(buys.filter((x) => x.id !== id));
+          refreshProductDropdown();
+          renderBuys();
+          resetForm();
+        });
+
+        $("#btnReset").on("click", resetForm);
+
+        $("#btnClearBuys").on("click", function () {
+          if (!confirm("Clear all buy history?")) return;
+          localStorage.removeItem(BUY_KEY);
+          renderBuys();
+          resetForm();
+        });
+
+        $("#btnSeedBuy").on("click", function () {
+          const products = loadProducts();
+          if (!products.length) {
+            alert(
+              "No products found. Seed products in product-entry.html first."
+            );
+            return;
+          }
+
+          const p0 = products[0];
+          if (typeof p0.stock !== "number") p0.stock = 0;
+          p0.stock += 10;
+          saveProducts(products);
+
+          const buys = [
+            {
+              id: "B-5001",
+              product_id: p0.id,
+              buying_date: "2026-01-04",
+              continue_days: 30,
+              expire_date: "2026-02-03",
+              buy_qty: 10,
+              in_stock: 0,
+              buying_price: Number(p0.supplier_price || 0),
+              selling_price: Number(p0.price || 0),
+              discount_price: 50,
+            },
+          ];
+
+          localStorage.setItem(BUY_KEY, JSON.stringify(buys));
+          refreshProductDropdown();
+          renderBuys();
+          resetForm();
+          alert("Seeded demo buy.");
+        });
+
+        ensureStockFieldExists();
+        refreshProductDropdown();
+        renderBuys();
+        resetForm();
+      });
+    </script>
+  </body>
+</html>

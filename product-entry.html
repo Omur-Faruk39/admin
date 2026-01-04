@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Entry -gafg Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --sidebar-w: 680px;
+      }
+
+      body {
+        background: #f6f7fb;
+      }
+      .app-shell {
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: var(--sidebar-w);
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .sidebar .brand {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sidebar .nav-link {
+        color: #cbd5e1;
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.15rem 0;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidebar .nav-link.active {
+        background: rgba(59, 130, 246, 0.22);
+        color: #fff;
+      }
+
+      .content {
+        flex: 1;
+      }
+      .page-header {
+        background: #ffffff;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .soft-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .small-muted {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+      .req::after {
+        content: " *";
+        color: #dc3545;
+      }
+
+      .thumb {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        background: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="d-flex min-vh-100">
+      <!-- Sidebar -->
+      <aside class="sidebar d-flex flex-column p-3">
+        <div class="brand pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <div
+              class="rounded-circle bg-primary"
+              style="width: 38px; height: 38px"
+            ></div>
+            <div>
+              <div class="fw-bold">Admin Panel</div>
+              <div class="small-muted">Bootstrap 5 + jQuery</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav nav-pills flex-column" id="sidebarNav">
+          <a class="nav-link" href="usersTraking.html">User Tracking</a>
+          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
+          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+          <a class="nav-link" href="product-entry.html">Product Entry</a>
+          <a class="nav-link" href="product-buy.html">Product Buy</a>
+          <a class="nav-link" href="invest-package-entry.html"
+            >Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">Session</div>
+              <div class="small-muted">Admin</div>
+            </div>
+            <span
+              class="badge rounded-pill"
+              style="
+                background: #eef2ff;
+                color: #3730a3;
+                border: 1px solid #e0e7ff;
+              "
+              >Online</span
+            >
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-grow-1">
+        <div
+          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <div class="fw-bold fs-5">Product Entry</div>
+            <div class="small-muted">Create / edit product records</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" id="btnSeed">
+              Seed Demo
+            </button>
+            <button class="btn btn-danger" id="btnClearAll">Clear All</button>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <!-- Form -->
+          <div class="soft-card bg-white p-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="fw-bold">Product Form</div>
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle mono"
+                id="formMode"
+                >MODE: CREATE</span
+              >
+            </div>
+
+            <form id="productForm">
+              <input type="hidden" id="productId" />
+
+              <div class="row g-3">
+                <div class="col-12 col-md-4">
+                  <label class="form-label req">category</label>
+                  <select class="form-control" id="category_id">
+                    <option value="" disabled selected>
+                      Select a category
+                    </option>
+                    <option value="1">Category 1</option>
+                    <option value="2">Category 2</option>
+                    <option value="3">Category 3</option>
+                  </select>
+                </div>
+
+                <!-- <div class="col-12 col-md-4">
+                  <label class="form-label req">product_subcat_id</label>
+                  <input
+                    class="form-control"
+                    id="product_subcat_id"
+                    placeholder="e.g. 101"
+                  />
+                </div> -->
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label req">Unit</label>
+                  <input
+                    class="form-control"
+                    id="unit"
+                    placeholder="e.g. pcs / kg / box"
+                  />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label req">Product Name</label>
+                  <input
+                    class="form-control"
+                    id="product_name"
+                    placeholder="e.g. Smart Watch"
+                  />
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">Price</label>
+                  <input
+                    class="form-control"
+                    id="price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="e.g. 1200"
+                  />
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label class="form-label req">Supplier Price</label>
+                  <input
+                    class="form-control"
+                    id="supplier_price"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="e.g. 900"
+                  />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Product Model</label>
+                  <input
+                    class="form-control"
+                    id="product_model"
+                    placeholder="e.g. XW-2026"
+                  />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Tag</label>
+                  <input
+                    class="form-control"
+                    id="tag"
+                    placeholder="e.g. gadget, new, hot"
+                  />
+                  <div class="small-muted mt-1">
+                    Comma separated tags are okay.
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Product Details</label>
+                  <textarea
+                    class="form-control"
+                    id="product_details"
+                    rows="2"
+                    placeholder="Short details..."
+                  ></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Description</label>
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    rows="3"
+                    placeholder="Full description..."
+                  ></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Specification</label>
+                  <textarea
+                    class="form-control"
+                    id="specification"
+                    rows="3"
+                    placeholder="Specifications..."
+                  ></textarea>
+                </div>
+
+                <!-- Image Thumb -->
+                <div class="col-12 col-lg-7">
+                  <label class="form-label">Image</label>
+                  <div class="mt-2">
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="image_file"
+                      accept="image/*"
+                    />
+                    <div class="small-muted mt-1">
+                      If you choose a file, it will be stored as base64 in
+                      localStorage (demo).
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-5 d-flex align-items-center gap-3">
+                  <img
+                    id="thumbPreview"
+                    class="thumb"
+                    alt="thumb preview"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364758b' font-size='12'%3EPreview%3C/text%3E%3C/svg%3E"
+                  />
+                </div>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary" type="submit" id="btnSave">
+                  Save Product
+                </button>
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="btnReset"
+                >
+                  Reset
+                </button>
+              </div>
+
+              <div class="alert alert-warning mt-3 mb-0 small">
+                UI-only demo using <span class="mono">localStorage</span>.
+                Replace save/load with your API later.
+              </div>
+            </form>
+          </div>
+
+          <!-- List -->
+          <!-- <div class="soft-card bg-white p-3 mt-4">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="fw-bold">Products</div>
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle"
+                id="prodCount"
+                >0</span
+              >
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr class="text-nowrap">
+                    <th>Thumb</th>
+                    <th>Name</th>
+                    <th>Category/Subcat</th>
+                    <th>Price</th>
+                    <th>Supplier</th>
+                    <th>Unit</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="prodTbody"></tbody>
+              </table>
+            </div>
+          </div> -->
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      $(function () {
+        const STORAGE_KEY = "admin_products_v1";
+
+        // auto highlight active sidebar link
+        const page = (location.pathname.split("/").pop() || "").toLowerCase();
+        $("#sidebarNav .nav-link")
+          .removeClass("active")
+          .each(function () {
+            const href = ($(this).attr("href") || "").toLowerCase();
+            if (href === page) $(this).addClass("active");
+          });
+
+        // ---------- Helpers ----------
+        function escapeHtml(s) {
+          return String(s).replace(
+            /[&<>"'`=\/]/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+                "/": "&#x2F;",
+                "`": "&#x60;",
+                "=": "&#x3D;",
+              }[c])
+          );
+        }
+
+        function money(n) {
+          const num = Number(n);
+          if (Number.isNaN(num)) return String(n);
+          return "৳ " + num.toLocaleString("en-US");
+        }
+
+        function loadProducts() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          } catch (e) {
+            return [];
+          }
+        }
+
+        function saveProducts(list) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+
+        function newId(list) {
+          return "P-" + (3000 + list.length + 1);
+        }
+
+        function setMode(mode) {
+          $("#formMode").text("MODE: " + mode);
+        }
+
+        function resetForm() {
+          $("#productId").val("");
+          $("#productForm")[0].reset();
+          $("#image_file").val("");
+          $("#thumbType").text("—");
+          $("#thumbPreview").attr(
+            "src",
+            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364758b' font-size='12'%3EPreview%3C/text%3E%3C/svg%3E"
+          );
+          setMode("CREATE");
+        }
+
+        function validateForm() {
+          const required = [
+            "category_id",
+            "product_subcat_id",
+            "product_name",
+            "price",
+            "supplier_price",
+            "unit",
+          ];
+          for (const id of required) {
+            const v = $("#" + id)
+              .val()
+              .trim();
+            if (!v) {
+              alert("Please fill required field: " + id);
+              $("#" + id).focus();
+              return false;
+            }
+          }
+          return true;
+        }
+
+        // ---------- Image Preview ----------
+        function setThumb(src, typeLabel) {
+          if (!src) return;
+          $("#thumbPreview").attr("src", src);
+          $("#thumbType").text(typeLabel || "thumb");
+        }
+
+        $("#btnUseUrl").on("click", function () {
+          const url = $("#image_thumb").val().trim();
+          if (!url) {
+            alert("Paste an image URL first.");
+            return;
+          }
+          setThumb(url, "URL");
+        });
+
+        $("#image_file").on("change", function (e) {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = function (evt) {
+            const base64 = evt.target.result; // data:image/...;base64,...
+            $("#image_thumb").val(""); // optional: clear URL input
+            setThumb(base64, "FILE(base64)");
+            // store base64 temporarily on form element
+            $("#image_file").data("base64", base64);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        // ---------- Render List ----------
+        function renderTable() {
+          const list = loadProducts();
+          $("#prodCount").text(list.length);
+          const $tb = $("#prodTbody").empty();
+
+          if (!list.length) {
+            $tb.append(
+              `<tr><td colspan="7" class="text-center text-muted py-4">No products yet.</td></tr>`
+            );
+            return;
+          }
+
+          list.forEach((p) => {
+            const thumb = p.image_thumb || "";
+            const img = thumb
+              ? `<img src="${escapeHtml(
+                  thumb
+                )}" class="rounded-3 border" style="width:44px;height:44px;object-fit:cover;">`
+              : `<div class="rounded-3 border bg-light" style="width:44px;height:44px;"></div>`;
+
+            $tb.append(`
+        <tr>
+          <td>${img}</td>
+          <td>
+            <div class="fw-semibold">${escapeHtml(p.product_name)}</div>
+            <div class="text-muted small">${escapeHtml(
+              p.product_model || ""
+            )}</div>
+          </td>
+          <td class="text-nowrap">
+            <div>Cat: <span class="mono">${escapeHtml(
+              p.category_id
+            )}</span></div>
+            <div>Sub: <span class="mono">${escapeHtml(
+              p.product_subcat_id
+            )}</span></div>
+          </td>
+          <td class="text-nowrap">${escapeHtml(money(p.price))}</td>
+          <td class="text-nowrap">${escapeHtml(money(p.supplier_price))}</td>
+          <td>${escapeHtml(p.unit)}</td>
+          <td class="text-end text-nowrap">
+            <button class="btn btn-outline-primary btn-sm btnEdit" data-id="${escapeHtml(
+              p.id
+            )}">Edit</button>
+            <button class="btn btn-outline-danger btn-sm btnDelete" data-id="${escapeHtml(
+              p.id
+            )}">Delete</button>
+          </td>
+        </tr>
+      `);
+          });
+        }
+
+        // ---------- Create / Update ----------
+        $("#productForm").on("submit", function (e) {
+          e.preventDefault();
+          if (!validateForm()) return;
+
+          const list = loadProducts();
+          const id = $("#productId").val().trim();
+
+          // use base64 if file selected, else use URL input
+          const base64 = $("#image_file").data("base64");
+          const urlThumb = $("#image_thumb").val().trim();
+          const image_thumb = base64 || urlThumb || "";
+
+          const data = {
+            id: id || newId(list),
+            category_id: $("#category_id").val().trim(),
+            product_subcat_id: $("#product_subcat_id").val().trim(),
+            product_name: $("#product_name").val().trim(),
+            price: Number($("#price").val()),
+            supplier_price: Number($("#supplier_price").val()),
+            unit: $("#unit").val().trim(),
+            product_model: $("#product_model").val().trim(),
+            product_details: $("#product_details").val().trim(),
+            image_thumb: image_thumb,
+            description: $("#description").val().trim(),
+            tag: $("#tag").val().trim(),
+            specification: $("#specification").val().trim(),
+          };
+
+          if (!id) {
+            // create
+            list.unshift(data);
+            saveProducts(list);
+            alert("Product created!");
+          } else {
+            // update
+            const idx = list.findIndex((x) => x.id === id);
+            if (idx === -1) {
+              alert("Product not found.");
+              return;
+            }
+            list[idx] = data;
+            saveProducts(list);
+            alert("Product updated!");
+          }
+
+          // clear temp base64
+          $("#image_file").data("base64", null);
+          resetForm();
+          renderTable();
+        });
+
+        // ---------- Edit ----------
+        $("#prodTbody").on("click", ".btnEdit", function () {
+          const id = $(this).data("id");
+          const list = loadProducts();
+          const p = list.find((x) => x.id === id);
+          if (!p) return;
+
+          $("#productId").val(p.id);
+          $("#category_id").val(p.category_id);
+          $("#product_subcat_id").val(p.product_subcat_id);
+          $("#product_name").val(p.product_name);
+          $("#price").val(p.price);
+          $("#supplier_price").val(p.supplier_price);
+          $("#unit").val(p.unit);
+          $("#product_model").val(p.product_model);
+          $("#product_details").val(p.product_details);
+          $("#description").val(p.description);
+          $("#tag").val(p.tag);
+          $("#specification").val(p.specification);
+
+          // thumb
+          $("#image_thumb").val(""); // keep url empty by default
+          $("#image_file").val("");
+          $("#image_file").data("base64", null);
+          if (p.image_thumb) setThumb(p.image_thumb, "SAVED");
+          else $("#thumbType").text("—");
+
+          setMode("EDIT");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        // ---------- Delete ----------
+        $("#prodTbody").on("click", ".btnDelete", function () {
+          const id = $(this).data("id");
+          if (!confirm("Delete this product?")) return;
+
+          const list = loadProducts().filter((x) => x.id !== id);
+          saveProducts(list);
+          renderTable();
+          resetForm();
+        });
+
+        // ---------- Buttons ----------
+        $("#btnReset").on("click", function () {
+          resetForm();
+        });
+
+        $("#btnClearAll").on("click", function () {
+          if (!confirm("Clear all products from localStorage?")) return;
+          localStorage.removeItem(STORAGE_KEY);
+          renderTable();
+          resetForm();
+        });
+
+        $("#btnSeed").on("click", function () {
+          const seed = [
+            {
+              id: "P-3001",
+              category_id: "1",
+              product_subcat_id: "101",
+              product_name: "Smart Watch",
+              price: 1200,
+              supplier_price: 900,
+              unit: "pcs",
+              product_model: "XW-2026",
+              product_details: "Basic smart watch with steps counter.",
+              image_thumb:
+                "https://via.placeholder.com/300x300.png?text=Smart+Watch",
+              description: "A budget smart watch for daily use.",
+              tag: "gadget,watch",
+              specification: "Screen: 1.4in; Battery: 5 days",
+            },
+            {
+              id: "P-3002",
+              category_id: "2",
+              product_subcat_id: "205",
+              product_name: "Wireless Earbuds",
+              price: 1500,
+              supplier_price: 1100,
+              unit: "pcs",
+              product_model: "EB-AIR",
+              product_details: "Noise reduction and good bass.",
+              image_thumb:
+                "https://via.placeholder.com/300x300.png?text=Earbuds",
+              description: "Comfortable earbuds with charging case.",
+              tag: "audio,earbuds",
+              specification: "Bluetooth 5.3; Playtime: 20h",
+            },
+          ];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
+          renderTable();
+          resetForm();
+          alert("Seeded demo products.");
+        });
+
+        // init
+        renderTable();
+        resetForm();
+      });
+    </script>
+  </body>
+</html>

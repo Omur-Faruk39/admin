@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Lottery - Admin Panel</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --sidebar-w: 280px;
+      }
+      body {
+        background: #f6f7fb;
+      }
+      .sidebar {
+        width: var(--sidebar-w);
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      .sidebar .nav-link {
+        color: #cbd5e1;
+        border-radius: 10px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.15rem 0;
+      }
+      .sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidebar .nav-link.active {
+        background: rgba(59, 130, 246, 0.22);
+        color: #fff;
+      }
+      .soft-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+      .small-muted {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="d-flex min-vh-100">
+      <!-- Sidebar -->
+      <aside class="sidebar d-flex flex-column p-3">
+        <div class="brand pb-3 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <div
+              class="rounded-circle bg-primary"
+              style="width: 38px; height: 38px"
+            ></div>
+            <div>
+              <div class="fw-bold">Admin Panel</div>
+              <div class="small-muted">Bootstrap 5 + jQuery</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav nav-pills flex-column" id="sidebarNav">
+          <a class="nav-link" href="usersTraking.html">User Tracking</a>
+          <a class="nav-link active" href="lotary-entry.html">Lottery Entry</a>
+          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
+          <a class="nav-link" href="product-entry.html">Product Entry</a>
+          <a class="nav-link" href="product-buy.html">Product Buy</a>
+          <a class="nav-link" href="invest-package-entry.html"
+            >Invest Package Entry</a
+          >
+        </nav>
+
+        <div
+          class="mt-auto pt-3"
+          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="fw-semibold">Session</div>
+              <div class="small-muted">Admin</div>
+            </div>
+            <span
+              class="badge rounded-pill"
+              style="
+                background: #eef2ff;
+                color: #3730a3;
+                border: 1px solid #e0e7ff;
+              "
+              >Online</span
+            >
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-grow-1">
+        <div
+          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <div class="fw-bold fs-5">Edit Lottery</div>
+            <div class="small-muted">
+              Update lottery values (Start Date is not editable)
+            </div>
+          </div>
+          <div class="mono small text-muted">
+            ID: <span id="lotIdText">—</span>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="soft-card bg-white p-3">
+            <div id="notFound" class="d-none">
+              <div
+                class="p-4 rounded-4"
+                style="background: #f8fafc; border: 1px dashed #cbd5e1"
+              >
+                <div class="fw-semibold">Lottery not found</div>
+                <div class="small-muted">
+                  Invalid id, go back and select a lottery again.
+                </div>
+                <a class="btn btn-primary mt-3" href="lotary-entry.html"
+                  >Back</a
+                >
+              </div>
+            </div>
+
+            <div id="editPanel" class="d-none">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Lottery Name</label>
+                  <input class="form-control" id="editName" />
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Ticket Price</label>
+                  <input
+                    class="form-control"
+                    id="editPrice"
+                    type="number"
+                    min="0"
+                  />
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Lottery Description</label>
+                  <textarea
+                    class="form-control"
+                    id="editDesc"
+                    rows="3"
+                  ></textarea>
+                </div>
+
+                <!-- Start date: NOT editable input -->
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Start Date (Locked)</label>
+                  <input class="form-control" id="startLocked" disabled />
+                  <div class="small text-muted mt-1">
+                    Start date is shown but not editable.
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Expire Date</label>
+                  <input class="form-control" id="editExpire" type="date" />
+                </div>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-primary" id="btnSave">
+                  Save Changes
+                </button>
+                <button class="btn btn-outline-danger" id="btnDelete">
+                  Delete
+                </button>
+              </div>
+
+              <div class="alert alert-warning mt-3 mb-0 small">
+                UI-only demo using <span class="mono">localStorage</span>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(function () {
+        const STORAGE_KEY = "admin_lotteries_v1";
+
+        function getParam(name) {
+          const url = new URL(window.location.href);
+          return url.searchParams.get(name);
+        }
+
+        function loadLotteries() {
+          try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          } catch (e) {
+            return [];
+          }
+        }
+
+        function saveLotteries(list) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+
+        const id = getParam("id");
+        $("#lotIdText").text(id || "—");
+
+        if (!id) {
+          $("#notFound").removeClass("d-none");
+          return;
+        }
+
+        const list = loadLotteries();
+        const idx = list.findIndex((x) => x.id === id);
+        if (idx === -1) {
+          $("#notFound").removeClass("d-none");
+          return;
+        }
+
+        const lot = list[idx];
+        $("#editPanel").removeClass("d-none");
+
+        // Fill form (no start date edit; only show locked)
+        $("#editName").val(lot.name);
+        $("#editDesc").val(lot.description);
+        $("#startLocked").val(lot.startDate || "");
+        $("#editExpire").val(lot.expireDate || "");
+        $("#editPrice").val(lot.ticketPrice);
+
+        $("#btnSave").on("click", function () {
+          const name = $("#editName").val().trim();
+          const desc = $("#editDesc").val().trim();
+          const expire = $("#editExpire").val();
+          const price = $("#editPrice").val();
+
+          if (!name || !desc || !expire || !price) {
+            alert("Please fill all fields.");
+            return;
+          }
+
+          // Update values (keep startDate same)
+          list[idx] = {
+            ...list[idx],
+            name,
+            description: desc,
+            expireDate: expire,
+            ticketPrice: Number(price),
+          };
+
+          saveLotteries(list);
+          alert("Saved!");
+          // Optionally go back
+          // window.location.href = "lotary-entry.html";
+        });
+
+        $("#btnDelete").on("click", function () {
+          if (!confirm("Delete this lottery?")) return;
+          list.splice(idx, 1);
+          saveLotteries(list);
+          window.location.href = "lotary-entry.html";
+        });
+      });
+    </script>
+  </body>
+</html>
