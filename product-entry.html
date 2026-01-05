@@ -3,69 +3,114 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Product Entry -gafg Admin Panel</title>
+    <title>Product Entry - Admin Panel</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --sidebar-w: 680px;
-      }
-
       body {
-        background: #f6f7fb;
-      }
-      .app-shell {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
       }
 
-      .sidebar {
-        width: var(--sidebar-w);
-        background: #0f172a;
-        color: #e2e8f0;
+      /* Top Navbar (new theme) */
+      .topbar {
+        background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       }
-      .sidebar .brand {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      .sidebar .nav-link {
-        color: #cbd5e1;
-        border-radius: 10px;
-        padding: 0.65rem 0.75rem;
-        margin: 0.15rem 0;
-      }
-      .sidebar .nav-link:hover {
-        background: rgba(255, 255, 255, 0.06);
+
+      .brand-wrap h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.5px;
         color: #fff;
+        line-height: 1.1;
       }
-      .sidebar .nav-link.active {
-        background: rgba(59, 130, 246, 0.22);
+      .brand-wrap p {
+        margin: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
         color: #fff;
       }
 
-      .content {
-        flex: 1;
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        white-space: nowrap;
       }
-      .page-header {
-        background: #ffffff;
-        border-bottom: 1px solid #e5e7eb;
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
       }
+      .navbar .nav-link i {
+        font-size: 1.15rem;
+      }
+      @media (max-width: 991.98px) {
+        .navbar .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
+      }
+
+      /* Main spacing under navbar */
+      .main-content {
+        padding: 40px 16px;
+      }
+      @media (min-width: 992px) {
+        .main-content {
+          padding: 40px;
+        }
+      }
+
+      /* New theme cards */
       .soft-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        background: #fff;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+      }
+
+      .page-head {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(8px);
+      }
+
+      .header-title {
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.4px;
       }
 
       .small-muted {
-        font-size: 0.92rem;
         color: #64748b;
       }
+
       .mono {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", "Courier New", monospace;
       }
+
       .req::after {
         content: " *";
         color: #dc3545;
@@ -75,299 +120,301 @@
         width: 120px;
         height: 120px;
         object-fit: cover;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
         background: #fff;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Make form fields look a bit more premium */
+      .form-control,
+      .form-select {
+        border-radius: 14px;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        box-shadow: none !important;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.18) !important;
+      }
+
+      .btn {
+        border-radius: 14px;
+      }
+
+      .primary-grad {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+      }
+      .primary-grad:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px rgba(99, 102, 241, 0.35);
+      }
+
+      .btn-soft {
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .badge-mode {
+        border-radius: 999px;
+        padding: 0.55rem 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.4px;
       }
     </style>
   </head>
 
   <body>
-    <div class="d-flex min-vh-100">
-      <!-- Sidebar -->
-      <aside class="sidebar d-flex flex-column p-3">
-        <div class="brand pb-3 mb-3">
-          <div class="d-flex align-items-center gap-2">
-            <div
-              class="rounded-circle bg-primary"
-              style="width: 38px; height: 38px"
-            ></div>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg topbar sticky-top">
+      <div class="container-fluid px-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+          <div class="brand-wrap">
+            <h3>Admin Panel</h3>
+            <p>Management System</p>
+          </div>
+        </a>
+
+        <button
+          class="navbar-toggler border-0 text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto gap-lg-2" id="topbarNav">
+            <li class="nav-item">
+              <a class="nav-link" href="usersTraking.html">
+                <i class="bi bi-people"></i> User Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-entry.html">
+                <i class="bi bi-ticket-perforated"></i> Lottery Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-drow.html">
+                <i class="bi bi-shuffle"></i> Lottery Draw
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-entry.html">
+                <i class="bi bi-box-seam"></i> Product Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-buy.html">
+                <i class="bi bi-cart"></i> Product Buy
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="invest-package-entry.html">
+                <i class="bi bi-wallet2"></i> Invest Package Entry
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container-fluid">
+        <!-- Page header -->
+        <div class="page-head p-4 mb-4">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-3"
+          >
             <div>
-              <div class="fw-bold">Admin Panel</div>
-              <div class="small-muted">Bootstrap 5 + jQuery</div>
+              <div class="header-title fs-3 mb-1">Product Entry</div>
+              <div class="small-muted">Create / edit product records</div>
             </div>
           </div>
         </div>
 
-        <nav class="nav nav-pills flex-column" id="sidebarNav">
-          <a class="nav-link" href="usersTraking.html">User Tracking</a>
-          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
-          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
-          <a class="nav-link" href="product-entry.html">Product Entry</a>
-          <a class="nav-link" href="product-buy.html">Product Buy</a>
-          <a class="nav-link" href="invest-package-entry.html"
-            >Invest Package Entry</a
-          >
-        </nav>
-
-        <div
-          class="mt-auto pt-3"
-          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
-        >
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="fw-semibold">Session</div>
-              <div class="small-muted">Admin</div>
-            </div>
+        <!-- Form -->
+        <div class="soft-card p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="fw-bold fs-5 text-dark">Product Form</div>
             <span
-              class="badge rounded-pill"
-              style="
-                background: #eef2ff;
-                color: #3730a3;
-                border: 1px solid #e0e7ff;
-              "
-              >Online</span
+              class="badge bg-primary-subtle text-primary border border-primary-subtle mono badge-mode"
+              id="formMode"
+              >MODE: CREATE</span
             >
           </div>
-        </div>
-      </aside>
 
-      <!-- Main -->
-      <main class="flex-grow-1">
-        <div
-          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
-        >
-          <div>
-            <div class="fw-bold fs-5">Product Entry</div>
-            <div class="small-muted">Create / edit product records</div>
-          </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" id="btnSeed">
-              Seed Demo
-            </button>
-            <button class="btn btn-danger" id="btnClearAll">Clear All</button>
-          </div>
-        </div>
+          <form id="productForm">
+            <input type="hidden" id="productId" />
 
-        <div class="p-4">
-          <!-- Form -->
-          <div class="soft-card bg-white p-3">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="fw-bold">Product Form</div>
-              <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle mono"
-                id="formMode"
-                >MODE: CREATE</span
-              >
-            </div>
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label class="form-label req">Category</label>
+                <select class="form-select" id="category_id">
+                  <option value="" disabled selected>Select a category</option>
+                  <option value="1">Category 1</option>
+                  <option value="2">Category 2</option>
+                  <option value="3">Category 3</option>
+                </select>
+              </div>
 
-            <form id="productForm">
-              <input type="hidden" id="productId" />
+              <div class="col-12 col-md-4">
+                <label class="form-label req">Unit</label>
+                <input
+                  class="form-control"
+                  id="unit"
+                  placeholder="e.g. pcs / kg / box"
+                />
+              </div>
 
-              <div class="row g-3">
-                <div class="col-12 col-md-4">
-                  <label class="form-label req">category</label>
-                  <select class="form-control" id="category_id">
-                    <option value="" disabled selected>
-                      Select a category
-                    </option>
-                    <option value="1">Category 1</option>
-                    <option value="2">Category 2</option>
-                    <option value="3">Category 3</option>
-                  </select>
-                </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label req">Product Name</label>
+                <input
+                  class="form-control"
+                  id="product_name"
+                  placeholder="e.g. Smart Watch"
+                />
+              </div>
 
-                <!-- <div class="col-12 col-md-4">
-                  <label class="form-label req">product_subcat_id</label>
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Price</label>
+                <input
+                  class="form-control"
+                  id="price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 1200"
+                />
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Supplier Price</label>
+                <input
+                  class="form-control"
+                  id="supplier_price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 900"
+                />
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label">Product Model</label>
+                <input
+                  class="form-control"
+                  id="product_model"
+                  placeholder="e.g. XW-2026"
+                />
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label">Tag</label>
+                <input
+                  class="form-control"
+                  id="tag"
+                  placeholder="e.g. gadget, new, hot"
+                />
+                <div class="small-muted mt-1">Comma separated tags are ok.</div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Product Details</label>
+                <textarea
+                  class="form-control"
+                  id="product_details"
+                  rows="2"
+                  placeholder="Short details..."
+                ></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  rows="3"
+                  placeholder="Full description..."
+                ></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Specification</label>
+                <textarea
+                  class="form-control"
+                  id="specification"
+                  rows="3"
+                  placeholder="Specifications..."
+                ></textarea>
+              </div>
+
+              <!-- Image Thumb -->
+              <div class="col-12 col-lg-7">
+                <label class="form-label">Image</label>
+                <div class="mt-2">
                   <input
                     class="form-control"
-                    id="product_subcat_id"
-                    placeholder="e.g. 101"
-                  />
-                </div> -->
-
-                <div class="col-12 col-md-4">
-                  <label class="form-label req">Unit</label>
-                  <input
-                    class="form-control"
-                    id="unit"
-                    placeholder="e.g. pcs / kg / box"
-                  />
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <label class="form-label req">Product Name</label>
-                  <input
-                    class="form-control"
-                    id="product_name"
-                    placeholder="e.g. Smart Watch"
-                  />
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">Price</label>
-                  <input
-                    class="form-control"
-                    id="price"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="e.g. 1200"
-                  />
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">Supplier Price</label>
-                  <input
-                    class="form-control"
-                    id="supplier_price"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="e.g. 900"
-                  />
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <label class="form-label">Product Model</label>
-                  <input
-                    class="form-control"
-                    id="product_model"
-                    placeholder="e.g. XW-2026"
-                  />
-                </div>
-
-                <div class="col-12 col-md-6">
-                  <label class="form-label">Tag</label>
-                  <input
-                    class="form-control"
-                    id="tag"
-                    placeholder="e.g. gadget, new, hot"
+                    type="file"
+                    id="image_file"
+                    accept="image/*"
                   />
                   <div class="small-muted mt-1">
-                    Comma separated tags are okay.
+                    If you choose a file, it will be stored as base64 in
+                    localStorage (demo).
                   </div>
                 </div>
-
-                <div class="col-12">
-                  <label class="form-label">Product Details</label>
-                  <textarea
-                    class="form-control"
-                    id="product_details"
-                    rows="2"
-                    placeholder="Short details..."
-                  ></textarea>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label">Description</label>
-                  <textarea
-                    class="form-control"
-                    id="description"
-                    rows="3"
-                    placeholder="Full description..."
-                  ></textarea>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label">Specification</label>
-                  <textarea
-                    class="form-control"
-                    id="specification"
-                    rows="3"
-                    placeholder="Specifications..."
-                  ></textarea>
-                </div>
-
-                <!-- Image Thumb -->
-                <div class="col-12 col-lg-7">
-                  <label class="form-label">Image</label>
-                  <div class="mt-2">
-                    <input
-                      class="form-control"
-                      type="file"
-                      id="image_file"
-                      accept="image/*"
-                    />
-                    <div class="small-muted mt-1">
-                      If you choose a file, it will be stored as base64 in
-                      localStorage (demo).
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 col-lg-5 d-flex align-items-center gap-3">
-                  <img
-                    id="thumbPreview"
-                    class="thumb"
-                    alt="thumb preview"
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364758b' font-size='12'%3EPreview%3C/text%3E%3C/svg%3E"
-                  />
-                </div>
               </div>
 
-              <div class="d-flex gap-2 mt-4">
-                <button class="btn btn-primary" type="submit" id="btnSave">
-                  Save Product
-                </button>
-                <button
-                  class="btn btn-outline-secondary"
-                  type="button"
-                  id="btnReset"
-                >
-                  Reset
-                </button>
+              <div class="col-12 col-lg-5 d-flex align-items-center gap-3">
+                <img
+                  id="thumbPreview"
+                  class="thumb"
+                  alt="thumb preview"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364758b' font-size='12'%3EPreview%3C/text%3E%3C/svg%3E"
+                />
               </div>
-
-              <div class="alert alert-warning mt-3 mb-0 small">
-                UI-only demo using <span class="mono">localStorage</span>.
-                Replace save/load with your API later.
-              </div>
-            </form>
-          </div>
-
-          <!-- List -->
-          <!-- <div class="soft-card bg-white p-3 mt-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="fw-bold">Products</div>
-              <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle"
-                id="prodCount"
-                >0</span
-              >
             </div>
 
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr class="text-nowrap">
-                    <th>Thumb</th>
-                    <th>Name</th>
-                    <th>Category/Subcat</th>
-                    <th>Price</th>
-                    <th>Supplier</th>
-                    <th>Unit</th>
-                    <th class="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="prodTbody"></tbody>
-              </table>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button class="btn primary-grad" type="submit" id="btnSave">
+                <i class="bi bi-save2 me-2"></i>Save Product
+              </button>
+              <button class="btn btn-soft" type="button" id="btnReset">
+                <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+              </button>
             </div>
-          </div> -->
+
+            <div class="alert alert-warning mt-3 mb-0 small">
+              UI-only demo using <span class="mono">localStorage</span>. Replace
+              save/load with your API later.
+            </div>
+          </form>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
       $(function () {
         const STORAGE_KEY = "admin_products_v1";
 
-        // auto highlight active sidebar link
+        // auto highlight active navbar link
         const page = (location.pathname.split("/").pop() || "").toLowerCase();
-        $("#sidebarNav .nav-link")
+        $("#topbarNav .nav-link")
           .removeClass("active")
           .each(function () {
             const href = ($(this).attr("href") || "").toLowerCase();
@@ -422,30 +469,29 @@
           $("#productId").val("");
           $("#productForm")[0].reset();
           $("#image_file").val("");
-          $("#thumbType").text("—");
           $("#thumbPreview").attr(
             "src",
             "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23f1f5f9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%2364758b' font-size='12'%3EPreview%3C/text%3E%3C/svg%3E"
           );
+          $("#image_file").data("base64", null);
           setMode("CREATE");
         }
 
         function validateForm() {
+          // NOTE: removed product_subcat_id because it's not in your current form
           const required = [
             "category_id",
-            "product_subcat_id",
             "product_name",
             "price",
             "supplier_price",
             "unit",
           ];
           for (const id of required) {
-            const v = $("#" + id)
-              .val()
-              .trim();
+            const $el = $("#" + id);
+            const v = ($el.val() ?? "").toString().trim();
             if (!v) {
               alert("Please fill required field: " + id);
-              $("#" + id).focus();
+              $el.focus();
               return false;
             }
           }
@@ -453,21 +499,6 @@
         }
 
         // ---------- Image Preview ----------
-        function setThumb(src, typeLabel) {
-          if (!src) return;
-          $("#thumbPreview").attr("src", src);
-          $("#thumbType").text(typeLabel || "thumb");
-        }
-
-        $("#btnUseUrl").on("click", function () {
-          const url = $("#image_thumb").val().trim();
-          if (!url) {
-            alert("Paste an image URL first.");
-            return;
-          }
-          setThumb(url, "URL");
-        });
-
         $("#image_file").on("change", function (e) {
           const file = e.target.files && e.target.files[0];
           if (!file) return;
@@ -475,67 +506,11 @@
           const reader = new FileReader();
           reader.onload = function (evt) {
             const base64 = evt.target.result; // data:image/...;base64,...
-            $("#image_thumb").val(""); // optional: clear URL input
-            setThumb(base64, "FILE(base64)");
-            // store base64 temporarily on form element
+            $("#thumbPreview").attr("src", base64);
             $("#image_file").data("base64", base64);
           };
           reader.readAsDataURL(file);
         });
-
-        // ---------- Render List ----------
-        function renderTable() {
-          const list = loadProducts();
-          $("#prodCount").text(list.length);
-          const $tb = $("#prodTbody").empty();
-
-          if (!list.length) {
-            $tb.append(
-              `<tr><td colspan="7" class="text-center text-muted py-4">No products yet.</td></tr>`
-            );
-            return;
-          }
-
-          list.forEach((p) => {
-            const thumb = p.image_thumb || "";
-            const img = thumb
-              ? `<img src="${escapeHtml(
-                  thumb
-                )}" class="rounded-3 border" style="width:44px;height:44px;object-fit:cover;">`
-              : `<div class="rounded-3 border bg-light" style="width:44px;height:44px;"></div>`;
-
-            $tb.append(`
-        <tr>
-          <td>${img}</td>
-          <td>
-            <div class="fw-semibold">${escapeHtml(p.product_name)}</div>
-            <div class="text-muted small">${escapeHtml(
-              p.product_model || ""
-            )}</div>
-          </td>
-          <td class="text-nowrap">
-            <div>Cat: <span class="mono">${escapeHtml(
-              p.category_id
-            )}</span></div>
-            <div>Sub: <span class="mono">${escapeHtml(
-              p.product_subcat_id
-            )}</span></div>
-          </td>
-          <td class="text-nowrap">${escapeHtml(money(p.price))}</td>
-          <td class="text-nowrap">${escapeHtml(money(p.supplier_price))}</td>
-          <td>${escapeHtml(p.unit)}</td>
-          <td class="text-end text-nowrap">
-            <button class="btn btn-outline-primary btn-sm btnEdit" data-id="${escapeHtml(
-              p.id
-            )}">Edit</button>
-            <button class="btn btn-outline-danger btn-sm btnDelete" data-id="${escapeHtml(
-              p.id
-            )}">Delete</button>
-          </td>
-        </tr>
-      `);
-          });
-        }
 
         // ---------- Create / Update ----------
         $("#productForm").on("submit", function (e) {
@@ -545,15 +520,12 @@
           const list = loadProducts();
           const id = $("#productId").val().trim();
 
-          // use base64 if file selected, else use URL input
           const base64 = $("#image_file").data("base64");
-          const urlThumb = $("#image_thumb").val().trim();
-          const image_thumb = base64 || urlThumb || "";
+          const image_thumb = base64 || "";
 
           const data = {
             id: id || newId(list),
             category_id: $("#category_id").val().trim(),
-            product_subcat_id: $("#product_subcat_id").val().trim(),
             product_name: $("#product_name").val().trim(),
             price: Number($("#price").val()),
             supplier_price: Number($("#supplier_price").val()),
@@ -567,12 +539,10 @@
           };
 
           if (!id) {
-            // create
             list.unshift(data);
             saveProducts(list);
             alert("Product created!");
           } else {
-            // update
             const idx = list.findIndex((x) => x.id === id);
             if (idx === -1) {
               alert("Product not found.");
@@ -583,51 +553,6 @@
             alert("Product updated!");
           }
 
-          // clear temp base64
-          $("#image_file").data("base64", null);
-          resetForm();
-          renderTable();
-        });
-
-        // ---------- Edit ----------
-        $("#prodTbody").on("click", ".btnEdit", function () {
-          const id = $(this).data("id");
-          const list = loadProducts();
-          const p = list.find((x) => x.id === id);
-          if (!p) return;
-
-          $("#productId").val(p.id);
-          $("#category_id").val(p.category_id);
-          $("#product_subcat_id").val(p.product_subcat_id);
-          $("#product_name").val(p.product_name);
-          $("#price").val(p.price);
-          $("#supplier_price").val(p.supplier_price);
-          $("#unit").val(p.unit);
-          $("#product_model").val(p.product_model);
-          $("#product_details").val(p.product_details);
-          $("#description").val(p.description);
-          $("#tag").val(p.tag);
-          $("#specification").val(p.specification);
-
-          // thumb
-          $("#image_thumb").val(""); // keep url empty by default
-          $("#image_file").val("");
-          $("#image_file").data("base64", null);
-          if (p.image_thumb) setThumb(p.image_thumb, "SAVED");
-          else $("#thumbType").text("—");
-
-          setMode("EDIT");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-
-        // ---------- Delete ----------
-        $("#prodTbody").on("click", ".btnDelete", function () {
-          const id = $(this).data("id");
-          if (!confirm("Delete this product?")) return;
-
-          const list = loadProducts().filter((x) => x.id !== id);
-          saveProducts(list);
-          renderTable();
           resetForm();
         });
 
@@ -639,8 +564,8 @@
         $("#btnClearAll").on("click", function () {
           if (!confirm("Clear all products from localStorage?")) return;
           localStorage.removeItem(STORAGE_KEY);
-          renderTable();
           resetForm();
+          alert("Cleared!");
         });
 
         $("#btnSeed").on("click", function () {
@@ -648,7 +573,6 @@
             {
               id: "P-3001",
               category_id: "1",
-              product_subcat_id: "101",
               product_name: "Smart Watch",
               price: 1200,
               supplier_price: 900,
@@ -664,7 +588,6 @@
             {
               id: "P-3002",
               category_id: "2",
-              product_subcat_id: "205",
               product_name: "Wireless Earbuds",
               price: 1500,
               supplier_price: 1100,
@@ -679,13 +602,11 @@
             },
           ];
           localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
-          renderTable();
-          resetForm();
           alert("Seeded demo products.");
+          resetForm();
         });
 
         // init
-        renderTable();
         resetForm();
       });
     </script>

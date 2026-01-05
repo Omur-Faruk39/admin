@@ -1,431 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile - Admin Panel</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
-    <aside class="sidebar d-flex flex-column p-3">
-      <div class="brand pb-3 mb-3">
-        <div class="d-flex align-items-center gap-2">
-          <div
-            class="rounded-circle bg-primary"
-            style="width: 38px; height: 38px"
-          ></div>
-          <div>
-            <div class="fw-bold">Admin Panel</div>
-            <div class="small-muted">Bootstrap 5 + jQuery</div>
-          </div>
-        </div>
-      </div>
+    <style>
+      body {
+        background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+        min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-      <nav class="nav nav-pills flex-column" id="sidebarNav">
-        <a class="nav-link active" href="usersTraking.html">User Tracking</a>
-        <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
-        <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
-        <a class="nav-link" href="product-entry.html">Product Entry</a>
-        <a class="nav-link" href="product-buy.html">Product Buy</a>
-        <a class="nav-link" href="invest-package-entry.html"
-          >Invest Package Entry</a
-        >
-      </nav>
+      /* Top Navbar */
+      .topbar {
+        background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      }
 
-      <div
-        class="mt-auto pt-3"
-        style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
-      >
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <div class="fw-semibold">Session</div>
-            <div class="small-muted">Admin</div>
-          </div>
-          <span
-            class="badge rounded-pill"
-            style="
-              background: #eef2ff;
-              color: #3730a3;
-              border: 1px solid #e0e7ff;
-            "
-            >Online</span
-          >
-        </div>
-      </div>
-    </aside>
+      .brand-wrap h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: #fff;
+        line-height: 1.1;
+      }
+      .brand-wrap p {
+        margin: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
+        color: #fff;
+      }
+
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        white-space: nowrap;
+      }
+
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .navbar .nav-link i {
+        font-size: 1.15rem;
+      }
+
+      @media (max-width: 991.98px) {
+        .navbar .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
+      }
+
+      /* Main content spacing */
+      .main-content {
+        padding: 40px 16px;
+      }
+      @media (min-width: 992px) {
+        .main-content {
+          padding: 40px;
+        }
+      }
+
+      /* Profile header */
+      .profile-header {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);
+      }
+
+      .user-avatar-large {
+        width: 150px;
+        height: 150px;
+        background: white;
+        color: #6366f1;
+        font-size: 4rem;
+        font-weight: bold;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* NEW: quick stats row */
+      .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .stat-box {
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 16px;
+        padding: 14px 12px;
+        backdrop-filter: blur(6px);
+      }
+
+      .stat-label {
+        font-size: 0.82rem;
+        opacity: 0.85;
+        margin-bottom: 6px;
+      }
+
+      .stat-value {
+        font-size: 1.15rem;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+
+      @media (max-width: 1200px) {
+        .quick-stats {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 991.98px) {
+        .quick-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      /* Detail buttons */
+      .detail-btn {
+        background: white;
+        border: none;
+        border-radius: 15px;
+        padding: 15px 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        font-weight: 500;
+        height: 100%;
+      }
+
+      .detail-btn:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.25);
+        background: #6366f1;
+        color: white;
+      }
+
+      .detail-btn i {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        opacity: 0.8;
+      }
+
+      .detail-display {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="d-flex min-vh-100">
-      <!-- Sidebar -->
-      <aside class="sidebar p-3 d-flex flex-column">
-        <div
-          class="pb-3 mb-3"
-          style="border-bottom: 1px solid rgba(255, 255, 255, 0.08)"
-        >
-          <div class="fw-bold">Admin Panel</div>
-          <div class="small-muted">Bootstrap 5 + jQuery</div>
-        </div>
-
-        <nav class="nav nav-pills flex-column">
-          <a class="nav-link active" href="users.html">1. User Tracking</a>
-          <a
-            class="nav-link"
-            href="#"
-            onclick="alert('Create lotary-entry page next');return false;"
-            >2. Lottery Entry</a
-          >
-          <a
-            class="nav-link"
-            href="#"
-            onclick="alert('Create lotary-drow page next');return false;"
-            >3. Lottery Draw</a
-          >
-          <a
-            class="nav-link"
-            href="#"
-            onclick="alert('Create product-entry page next');return false;"
-            >4. Product Entry</a
-          >
-          <a
-            class="nav-link"
-            href="#"
-            onclick="alert('Create product-buy page next');return false;"
-            >5. Product Buy</a
-          >
-          <a
-            class="nav-link"
-            href="#"
-            onclick="alert('Create invest-package-entry page next');return false;"
-            >6. Invest Package Entry</a
-          >
-        </nav>
-
-        <div
-          class="mt-auto pt-3"
-          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
-        >
-          <a class="btn btn-outline-light w-100" href="users.html"
-            >← Back to Users</a
-          >
-        </div>
-      </aside>
-
-      <!-- Main -->
-      <main class="flex-grow-1">
-        <div
-          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
-        >
-          <div>
-            <div class="fw-bold fs-5">User Profile</div>
-            <div class="small-muted">Details for selected user</div>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg topbar sticky-top">
+      <div class="container-fluid px-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+          <div class="brand-wrap">
+            <h3>Admin Panel</h3>
+            <p>Management System</p>
           </div>
-          <div class="mono small text-muted">
-            UID: <span id="uidText">—</span>
-          </div>
-        </div>
+        </a>
 
-        <div class="p-4">
-          <div class="soft-card bg-white p-3">
-            <div id="notFound" class="d-none">
-              <div
-                class="p-4 rounded-4"
-                style="background: #f8fafc; border: 1px dashed #cbd5e1"
-              >
-                <div class="fw-semibold">User not found</div>
-                <div class="small-muted">
-                  Invalid uid, please go back and select a user again.
-                </div>
-                <a class="btn btn-primary mt-3" href="users.html"
-                  >Back to Users</a
-                >
-              </div>
-            </div>
-
-            <div id="profilePanel" class="d-none">
-              <!-- Profile Card -->
-              <div class="card border-0 soft-card" style="box-shadow: none">
-                <div class="card-body">
-                  <div
-                    class="d-flex align-items-start justify-content-between flex-wrap gap-3"
-                  >
-                    <div class="d-flex align-items-center gap-3">
-                      <div
-                        class="rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center"
-                        style="width: 58px; height: 58px"
-                      >
-                        <span class="fw-bold text-primary" id="profileInitials"
-                          >U</span
-                        >
-                      </div>
-                      <div>
-                        <div class="h5 mb-0" id="profileName">—</div>
-                        <div class="small-muted">
-                          <span class="mono" id="profileId">—</span> •
-                          <span id="profilePhone">—</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="text-end">
-                      <span class="badge rounded-pill" id="profileStatusBadge"
-                        >—</span
-                      >
-                      <div class="small-muted mt-1">
-                        Joined: <span id="profileJoined">—</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr class="my-3" />
-
-                  <div class="row g-2">
-                    <div class="col-12 col-md-6">
-                      <div class="small-muted">Father Name</div>
-                      <div class="fw-semibold" id="profileFather">—</div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="small-muted">Email</div>
-                      <div class="fw-semibold" id="profileEmail">—</div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="small-muted">Address</div>
-                      <div class="fw-semibold" id="profileAddress">—</div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="small-muted">Last Login</div>
-                      <div class="fw-semibold" id="profileLastLogin">—</div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <div class="small-muted">Rank</div>
-                      <div class="fw-semibold" id="profileRank">—</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Buttons -->
-              <div class="mt-3">
-                <div class="fw-bold mb-2">Quick Details</div>
-                <div class="d-flex flex-wrap btn-grid" id="detailButtons"></div>
-                <div class="small-muted mt-2" id="detailOutput">
-                  Click a button to see details.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
-      $(function () {
-        // Same demo data (later you can load from API)
-        const users = [
-          {
-            id: "U-1001",
-            name: "Rahim Uddin",
-            father: "Karim Uddin",
-            phone: "01711-000111",
-            email: "rahim@example.com",
-            address: "Dhaka, Bangladesh",
-            status: "Active",
-            profileRank: "Gold",
-            joined: "2025-02-12",
-            lastLogin: "2026-01-03 22:10",
-            stats: {
-              totalCashIn: 145000,
-              totalCashOut: 88000,
-              walletBalance: 57000,
-              totalProductsBought: 12,
-              totalLotteryEntries: 6,
-              totalInvestPackages: 2,
-              lastTransaction: "2026-01-02 18:40",
-              kycStatus: "Verified",
-              referralCount: 14,
-              points: 320,
-              rank: "Silver",
-              accountFlags: "None",
-              ipLast: "103.1.XX.XX",
-              deviceLast: "Android",
-            },
-          },
-          {
-            id: "U-1002",
-            name: "Ayesha Khan",
-            father: "Jamal Khan",
-            phone: "01822-333444",
-            email: "ayesha@example.com",
-            address: "Chattogram, Bangladesh",
-            profileRank: "Silver",
-            status: "Active",
-            joined: "2024-11-08",
-            lastLogin: "2026-01-04 09:12",
-            stats: {
-              totalCashIn: 92000,
-              totalCashOut: 15000,
-              walletBalance: 77000,
-              totalProductsBought: 5,
-              totalLotteryEntries: 15,
-              totalInvestPackages: 1,
-              lastTransaction: "2026-01-04 08:59",
-              kycStatus: "Pending",
-              referralCount: 3,
-              points: 110,
-              rank: "Bronze",
-              accountFlags: "Manual Review",
-              ipLast: "27.147.XX.XX",
-              deviceLast: "iPhone",
-            },
-          },
-          {
-            id: "U-1003",
-            name: "Sohel Mia",
-            father: "Babul Mia",
-            phone: "01999-555666",
-            email: "sohel@example.com",
-            address: "Sylhet, Bangladesh",
-            profileRank: "Bronze",
-            status: "Blocked",
-            joined: "2023-06-21",
-            lastLogin: "2025-12-28 16:05",
-            stats: {
-              totalCashIn: 25000,
-              totalCashOut: 24500,
-              walletBalance: 500,
-              totalProductsBought: 1,
-              totalLotteryEntries: 2,
-              totalInvestPackages: 0,
-              lastTransaction: "2025-12-15 12:20",
-              kycStatus: "Rejected",
-              referralCount: 0,
-              points: 10,
-              rank: "Starter",
-              accountFlags: "Chargeback Risk",
-              ipLast: "45.112.XX.XX",
-              deviceLast: "Windows",
-            },
-          },
-        ];
-
-        const detailButtons = [
-          { key: "totalCashIn", label: "Total Cash In", money: true },
-          { key: "totalCashOut", label: "Total Cash Out", money: true },
-          { key: "walletBalance", label: "Wallet Balance", money: true },
-          { key: "totalProductsBought", label: "Products Bought" },
-          { key: "totalLotteryEntries", label: "Lottery Entries" },
-          { key: "totalInvestPackages", label: "Invest Packages" },
-          { key: "lastTransaction", label: "Last Transaction" },
-          { key: "lastLogin", label: "Last Login" },
-          { key: "kycStatus", label: "KYC Status" },
-          { key: "referralCount", label: "Referrals" },
-          { key: "points", label: "Points" },
-          { key: "rank", label: "User Rank" },
-          { key: "accountFlags", label: "Account Flags" },
-          { key: "ipLast", label: "Last IP" },
-          { key: "deviceLast", label: "Last Device" },
-        ];
-
-        function getParam(name) {
-          const url = new URL(window.location.href);
-          return url.searchParams.get(name);
-        }
-
-        function initialsFromName(name) {
-          const parts = String(name || "")
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean);
-          if (!parts.length) return "U";
-          const a = parts[0][0] || "U";
-          const b = parts.length > 1 ? parts[parts.length - 1][0] || "" : "";
-          return (a + b).toUpperCase();
-        }
-
-        function money(n) {
-          const num = Number(n);
-          if (Number.isNaN(num)) return String(n);
-          return "৳ " + num.toLocaleString("en-US");
-        }
-
-        function showUser(u) {
-          $("#profilePanel").removeClass("d-none");
-
-          $("#profileInitials").text(initialsFromName(u.name));
-          $("#profileName").text(u.name);
-          $("#profileId").text(u.id);
-          $("#profilePhone").text(u.phone);
-          $("#profileFather").text(u.father);
-          $("#profileEmail").text(u.email);
-          $("#profileAddress").text(u.address);
-          $("#profileJoined").text(u.joined);
-          $("#profileLastLogin").text(u.lastLogin);
-          $("#profileRank").text(u.profileRank);
-
-          const badgeClass =
-            u.status === "Active"
-              ? "bg-success"
-              : u.status === "Blocked"
-              ? "bg-danger"
-              : "bg-secondary";
-          $("#profileStatusBadge")
-            .removeClass("bg-success bg-danger bg-secondary")
-            .addClass(badgeClass)
-            .text(u.status);
-
-          // Render buttons
-          const $btns = $("#detailButtons").empty();
-          detailButtons.forEach((d) => {
-            $btns.append(`
-        <button class="btn btn-outline-primary btn-sm" data-k="${
-          d.key
-        }" data-money="${d.money ? 1 : 0}">
-          ${d.label}
+        <button
+          class="navbar-toggler border-0 text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="bi bi-list fs-2"></i>
         </button>
-      `);
-          });
 
-          $("#detailOutput").text("Click a button to see details.");
-        }
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-speedometer2"></i> Dashboard
+              </a>
+            </li>
 
-        const uid = getParam("uid");
-        $("#uidText").text(uid || "—");
+            <li class="nav-item">
+              <a class="nav-link active" href="user-tracking.html">
+                <i class="bi bi-people"></i> User Tracking
+              </a>
+            </li>
 
-        if (!uid) {
-          $("#notFound").removeClass("d-none");
-          return;
-        }
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-ticket-perforated"></i> Lottery Entry
+              </a>
+            </li>
 
-        const user = users.find((x) => x.id === uid);
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-shuffle"></i> Lottery Draw
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-box-seam"></i> Product Entry
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-cart"></i> Product Buy
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-wallet2"></i> Invest Package
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container-fluid">
+        <div class="profile-header mb-5">
+          <div class="user-avatar-large" id="avatar"></div>
+          <h2 id="name" class="fw-bold mb-3"></h2>
+
+          <div class="d-flex flex-column gap-1">
+            <p class="fs-5 opacity-90 mb-0">
+              <i class="bi bi-envelope me-2"></i><span id="email"></span>
+            </p>
+            <p class="opacity-90 mb-0">
+              <i class="bi bi-telephone me-2"></i><span id="phone"></span>
+            </p>
+            <p class="opacity-90 mb-0">
+              <i class="bi bi-person-badge me-2"></i>Father:
+              <span id="father"></span>
+            </p>
+          </div>
+
+          <!-- NEW: quick stats -->
+          <div class="quick-stats">
+            <div class="stat-box">
+              <div class="stat-label"><i class="bi bi-award me-2"></i>Rank</div>
+              <div class="stat-value" id="rank">-</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">
+                <i class="bi bi-graph-up-arrow me-2"></i>Total Invest
+              </div>
+              <div class="stat-value" id="totalInvest">-</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">
+                <i class="bi bi-wallet2 me-2"></i>Balance
+              </div>
+              <div class="stat-value" id="balance">-</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">
+                <i class="bi bi-bag-check me-2"></i>Purchases
+              </div>
+              <div class="stat-value" id="purchases">-</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">
+                <i class="bi bi-cash-coin me-2"></i>Total Cash In
+              </div>
+              <div class="stat-value" id="cashIn">-</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">
+                <i class="bi bi-clock-history me-2"></i>Last Login
+              </div>
+              <div class="stat-value" id="lastLogin">-</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mb-4 text-dark fw-semibold">User Details</h3>
+        <div class="row g-4" id="detail-buttons"></div>
+
+        <div id="detail-display" class="detail-display text-center d-none">
+          <h4 id="display-text" class="text-primary"></h4>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const users = [
+        null, // index 0
+        {
+          name: "John Doe",
+          rank: "Gold",
+          fatherName: "Richard Doe",
+          email: "john@example.com",
+          phone: "+1 234 567 890",
+        },
+        {
+          name: "Jane Smith",
+          rank: "Silver",
+          fatherName: "Robert Smith",
+          email: "jane@example.com",
+          phone: "+1 987 654 321",
+        },
+        {
+          name: "Alice Johnson",
+          rank: "Platinum",
+          fatherName: "Michael Johnson",
+          email: "alice@example.com",
+          phone: "+1 555 123 456",
+        },
+        {
+          name: "Mohammed Ali",
+          rank: "Bronze",
+          fatherName: "Ahmed Ali",
+          email: "mohammed@example.com",
+          phone: "+92 300 1234567",
+        },
+        {
+          name: "Sophia Williams",
+          rank: "Diamond",
+          fatherName: "David Williams",
+          email: "sophia@example.com",
+          phone: "+44 7700 900123",
+        },
+        {
+          name: "Rahul Sharma",
+          rank: "Gold",
+          fatherName: "Rajesh Sharma",
+          email: "rahul@example.com",
+          phone: "+91 98765 43210",
+        },
+        {
+          name: "Emma Brown",
+          rank: "Silver",
+          fatherName: "James Brown",
+          email: "emma@example.com",
+          phone: "+61 400 123 456",
+        },
+        {
+          name: "Liam Garcia",
+          rank: "Gold",
+          fatherName: "Carlos Garcia",
+          email: "liam@example.com",
+          phone: "+34 600 123 456",
+        },
+      ];
+
+      const details = {
+        1: {
+          cash: "$18,500",
+          login: "2026-01-05 14:22",
+          balance: "$4,200",
+          purchases: "32",
+          invest: "$12,000",
+        },
+        2: {
+          cash: "$9,200",
+          login: "2026-01-05 10:15",
+          balance: "$2,100",
+          purchases: "18",
+          invest: "$6,300",
+        },
+        3: {
+          cash: "$22,000",
+          login: "2026-01-04 23:50",
+          balance: "$8,900",
+          purchases: "51",
+          invest: "$15,500",
+        },
+        4: {
+          cash: "$7,800",
+          login: "2026-01-05 12:30",
+          balance: "$1,200",
+          purchases: "12",
+          invest: "$4,800",
+        },
+        5: {
+          cash: "$25,000",
+          login: "2026-01-05 09:45",
+          balance: "$9,800",
+          purchases: "68",
+          invest: "$18,000",
+        },
+        6: {
+          cash: "$11,300",
+          login: "2026-01-05 08:20",
+          balance: "$3,100",
+          purchases: "25",
+          invest: "$8,200",
+        },
+        7: {
+          cash: "$14,600",
+          login: "2026-01-04 19:10",
+          balance: "$5,400",
+          purchases: "39",
+          invest: "$10,100",
+        },
+        8: {
+          cash: "$16,900",
+          login: "2026-01-05 11:55",
+          balance: "$6,700",
+          purchases: "44",
+          invest: "$11,900",
+        },
+      };
+
+      const labels = [
+        "Total Cash In",
+        "Last Login",
+        "Account Balance",
+        "Total Purchases",
+        "Total Investments",
+        "Registration Date",
+        "Lottery Entries",
+        "Wins",
+        "Referrals",
+        "Support Tickets",
+        "Verification Status",
+        "IP Address",
+        "Device Used",
+        "Location",
+        "Last Activity",
+      ];
+
+      function getInitials(name) {
+        return name
+          .split(" ")
+          .map((n) => n[0].toUpperCase())
+          .join("")
+          .substring(0, 2);
+      }
+
+      $(document).ready(function () {
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get("id"));
+        const user = users[id];
+
         if (!user) {
-          $("#notFound").removeClass("d-none");
+          document.body.innerHTML =
+            "<h1 class='text-center mt-5'>User Not Found</h1>";
           return;
         }
 
-        showUser(user);
+        const det = details[id] || {};
 
-        // Detail button click
-        $("#detailButtons").on("click", "button", function () {
-          const key = $(this).data("k");
-          const isMoney = $(this).data("money") == 1;
+        // Header basic info
+        $("#avatar").text(getInitials(user.name));
+        $("#name").text(user.name);
+        $("#father").text(user.fatherName);
+        $("#email").text(user.email);
+        $("#phone").text(user.phone);
 
-          let val = "—";
-          if (key === "lastLogin") val = user.lastLogin;
-          else if (
-            user.stats &&
-            Object.prototype.hasOwnProperty.call(user.stats, key)
-          )
-            val = user.stats[key];
+        // NEW: header quick stats
+        $("#rank").text(user.rank || "Standard");
+        $("#totalInvest").text(det.invest || "$0");
+        $("#balance").text(det.balance || "$0");
+        $("#purchases").text(det.purchases || "0");
+        $("#cashIn").text(det.cash || "$0");
+        $("#lastLogin").text(det.login || "Unknown");
 
-          if (isMoney) val = money(val);
+        // Button values (detail grid)
+        const values = [
+          det.cash || "$0",
+          det.login || "Unknown",
+          det.balance || "$0",
+          det.purchases || "0",
+          det.invest || "$0",
+          "2025-03-15",
+          Math.floor(Math.random() * 25),
+          Math.floor(Math.random() * 6),
+          Math.floor(Math.random() * 20),
+          Math.floor(Math.random() * 8) + 1,
+          "Verified",
+          "192.168." +
+            Math.floor(Math.random() * 255) +
+            "." +
+            Math.floor(Math.random() * 255),
+          ["Desktop", "Mobile", "Tablet"][Math.floor(Math.random() * 3)],
+          ["New York", "London", "Dubai", "Mumbai", "Sydney"][
+            Math.floor(Math.random() * 5)
+          ],
+          "Just now",
+        ];
 
-          $("#detailOutput").html(
-            `<span class="fw-semibold">${key}</span>: ${val}`
-          );
+        // Render detail buttons
+        labels.forEach((label, i) => {
+          const icon =
+            i < 5
+              ? "bi-currency-dollar"
+              : i < 10
+              ? "bi-trophy"
+              : "bi-info-circle";
+
+          const btn = `
+            <div class="col-md-6 col-lg-4">
+              <button class="btn detail-btn w-100 text-start" data-text="${label}: <strong>${values[i]}</strong>">
+                <div class="text-center">
+                  <i class="bi ${icon} text-primary"></i><br />
+                  <span class="fw-semibold">${label}</span>
+                </div>
+              </button>
+            </div>`;
+          $("#detail-buttons").append(btn);
+        });
+
+        // Click to show detail
+        $(document).on("click", ".detail-btn", function () {
+          const text = $(this).data("text");
+          $("#display-text").html(text);
+          $("#detail-display").removeClass("d-none").hide().fadeIn();
         });
       });
     </script>

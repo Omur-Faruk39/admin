@@ -1,251 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Users - Admin Panel</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Tracking - Admin Panel</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --sidebar-w: 280px;
-      }
       body {
-        background: #f6f7fb;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
       }
-      .sidebar {
-        width: var(--sidebar-w);
-        background: #0f172a;
-        color: #e2e8f0;
+
+      /* Top Navbar */
+      .topbar {
+        background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       }
-      .sidebar .nav-link {
-        color: #cbd5e1;
-        border-radius: 10px;
-        padding: 0.65rem 0.75rem;
-        margin: 0.15rem 0;
+
+      .brand-wrap h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: #fff;
+        line-height: 1.1;
       }
-      .sidebar .nav-link:hover {
-        background: rgba(255, 255, 255, 0.06);
+      .brand-wrap p {
+        margin: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
         color: #fff;
       }
-      .sidebar .nav-link.active {
-        background: rgba(59, 130, 246, 0.22);
-        color: #fff;
+
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        white-space: nowrap;
       }
-      .soft-card {
-        border: 1px solid #e5e7eb;
+
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .navbar .nav-link i {
+        font-size: 1.15rem;
+      }
+
+      /* Main content spacing under sticky navbar */
+      .main-content {
+        padding: 40px 16px;
+      }
+
+      @media (min-width: 992px) {
+        .main-content {
+          padding: 40px;
+        }
+      }
+
+      .header-title {
+        font-weight: 700;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+      }
+
+      .search-container {
+        max-width: 800px;
+        margin: 0 auto 50px;
+      }
+
+      .search-box {
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .search-box .form-control {
+        border: none;
+        padding: 20px 25px;
+        font-size: 1.15rem;
+      }
+
+      .search-box .input-group-text {
+        background: transparent;
+        border: none;
+        padding: 20px;
+        color: #6366f1;
+        font-size: 1.3rem;
+      }
+
+      /* User List Item */
+      .user-list-item {
+        background: white;
         border-radius: 16px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        transition: all 0.4s ease;
+        border-left: 5px solid #6366f1;
       }
-      .user-row {
-        cursor: pointer;
+
+      .user-list-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.18);
+        border-left-color: #8b5cf6;
       }
-      .user-row:hover {
-        background: #f1f5f9;
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        font-size: 1.6rem;
+        font-weight: bold;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
       }
-      .mono {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", "Courier New", monospace;
+
+      .user-info h5 {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 4px;
       }
-      .small-muted {
-        font-size: 0.92rem;
+
+      .user-info p {
         color: #64748b;
+        margin-bottom: 4px;
+      }
+
+      .view-btn {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        border-radius: 12px;
+        padding: 10px 24px;
+        color: white;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+
+      .view-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+      }
+
+      .no-results {
+        font-size: 1.5rem;
+        color: #94a3b8;
+      }
+
+      /* Make collapsed menu look nicer on mobile */
+      .navbar-collapse {
+        padding: 12px 0;
+      }
+      @media (max-width: 991.98px) {
+        .navbar .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
       }
     </style>
   </head>
 
   <body>
-    <div class="d-flex min-vh-100">
-      <!-- Sidebar -->
-      <aside class="sidebar d-flex flex-column p-3">
-        <div class="brand pb-3 mb-3">
-          <div class="d-flex align-items-center gap-2">
-            <div
-              class="rounded-circle bg-primary"
-              style="width: 38px; height: 38px"
-            ></div>
-            <div>
-              <div class="fw-bold">Admin Panel</div>
-              <div class="small-muted">Bootstrap 5 + jQuery</div>
-            </div>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg topbar sticky-top">
+      <div class="container-fluid px-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+          <div class="brand-wrap">
+            <h3>Admin Panel</h3>
+            <p>Management System</p>
           </div>
-        </div>
+        </a>
 
-        <nav class="nav nav-pills flex-column" id="sidebarNav">
-          <a class="nav-link active" href="usersTraking.html">User Tracking</a>
-          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
-          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
-          <a class="nav-link" href="product-entry.html">Product Entry</a>
-          <a class="nav-link" href="product-buy.html">Product Buy</a>
-          <a class="nav-link" href="invest-package-entry.html"
-            >Invest Package Entry</a
-          >
-        </nav>
-
-        <div
-          class="mt-auto pt-3"
-          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
+        <button
+          class="navbar-toggler border-0 text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="fw-semibold">Session</div>
-              <div class="small-muted">Admin</div>
-            </div>
-            <span
-              class="badge rounded-pill"
-              style="
-                background: #eef2ff;
-                color: #3730a3;
-                border: 1px solid #e0e7ff;
-              "
-              >Online</span
-            >
-          </div>
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto gap-lg-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-speedometer2"></i> Dashboard
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active" href="usersTraking.html">
+                <i class="bi bi-people"></i> User Tracking
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-entry.html">
+                <i class="bi bi-ticket-perforated"></i> Lottery Entry
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-drow.html">
+                <i class="bi bi-shuffle"></i> Lottery Draw
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="product-entry.html">
+                <i class="bi bi-box-seam"></i> Product Entry
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="product-buy.html">
+                <i class="bi bi-cart"></i> Product Buy
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="invest-package-entry.html">
+                <i class="bi bi-wallet2"></i> Invest Package
+              </a>
+            </li>
+          </ul>
         </div>
-      </aside>
+      </div>
+    </nav>
 
-      <!-- Main -->
-      <main class="flex-grow-1">
-        <div class="bg-white border-bottom px-4 py-3">
-          <div class="fw-bold fs-5">User Tracking</div>
-          <div class="small-muted">Search users and open profile page</div>
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="header-title mb-5 text-center">User Tracking</h1>
+
+      <!-- Search -->
+      <div class="search-container">
+        <div class="input-group search-box">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input
+            type="text"
+            id="user-search"
+            class="form-control"
+            placeholder="Search by name, email, phone or father's name..."
+            autocomplete="off"
+          />
         </div>
+      </div>
 
-        <div class="p-4">
-          <div class="soft-card bg-white p-3">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="fw-bold">User List</div>
-              <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle"
-                id="userCountBadge"
-                >0 users</span
-              >
-            </div>
+      <!-- Users List -->
+      <div id="user-list"></div>
 
-            <div class="input-group mb-3">
-              <span class="input-group-text">Search</span>
-              <input
-                class="form-control"
-                id="userSearch"
-                placeholder="Search by name..."
-              />
-              <button class="btn btn-primary" id="btnClearSearch">Clear</button>
-            </div>
+      <div id="no-results" class="text-center py-5 d-none">
+        <i class="bi bi-emoji-frown fs-1 text-muted mb-4"></i>
+        <p class="no-results">No users found matching your search.</p>
+      </div>
+    </main>
 
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr class="text-nowrap">
-                    <th>User</th>
-                    <th>ID</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="userTableBody"></tbody>
-              </table>
-            </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-            <div class="small-muted mt-3">
-              Click a user to open profile page.
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-      $(function () {
-        // Demo data (same should exist in profile page)
-        const users = [
-          {
-            id: "U-1001",
-            name: "Rahim Uddin",
-            phone: "01711-000111",
-            status: "Active",
-          },
-          {
-            id: "U-1002",
-            name: "Ayesha Khan",
-            phone: "01822-333444",
-            status: "Active",
-          },
-          {
-            id: "U-1003",
-            name: "Sohel Mia",
-            phone: "01999-555666",
-            status: "Blocked",
-          },
-        ];
+      const users = [
+        {
+          id: 1,
+          name: "John Doe",
+          fatherName: "Richard Doe",
+          email: "john@example.com",
+          phone: "+1 234 567 890",
+        },
+        {
+          id: 2,
+          name: "Jane Smith",
+          fatherName: "Robert Smith",
+          email: "jane@example.com",
+          phone: "+1 987 654 321",
+        },
+        {
+          id: 3,
+          name: "Alice Johnson",
+          fatherName: "Michael Johnson",
+          email: "alice@example.com",
+          phone: "+1 555 123 456",
+        },
+        {
+          id: 4,
+          name: "Mohammed Ali",
+          fatherName: "Ahmed Ali",
+          email: "mohammed@example.com",
+          phone: "+92 300 1234567",
+        },
+        {
+          id: 5,
+          name: "Sophia Williams",
+          fatherName: "David Williams",
+          email: "sophia@example.com",
+          phone: "+44 7700 900123",
+        },
+        {
+          id: 6,
+          name: "Rahul Sharma",
+          fatherName: "Rajesh Sharma",
+          email: "rahul@example.com",
+          phone: "+91 98765 43210",
+        },
+        {
+          id: 7,
+          name: "Emma Brown",
+          fatherName: "James Brown",
+          email: "emma@example.com",
+          phone: "+61 400 123 456",
+        },
+        {
+          id: 8,
+          name: "Liam Garcia",
+          fatherName: "Carlos Garcia",
+          email: "liam@example.com",
+          phone: "+34 600 123 456",
+        },
+        {
+          id: 9,
+          name: "Olivia Martinez",
+          fatherName: "Jose Martinez",
+          email: "olivia@example.com",
+          phone: "+52 55 1234 5678",
+        },
+        {
+          id: 10,
+          name: "Noah Wilson",
+          fatherName: "Thomas Wilson",
+          email: "noah@example.com",
+          phone: "+1 456 789 0123",
+        },
+      ];
 
-        function escapeHtml(s) {
-          return String(s).replace(
-            /[&<>"'`=\/]/g,
-            (c) =>
-              ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;",
-                "/": "&#x2F;",
-                "`": "&#x60;",
-                "=": "&#x3D;",
-              }[c])
-          );
+      function getInitials(name) {
+        return name
+          .split(" ")
+          .map((n) => n[0].toUpperCase())
+          .join("")
+          .substring(0, 2);
+      }
+
+      function renderUsers(filtered) {
+        const list = $("#user-list");
+        const noResults = $("#no-results");
+        list.empty();
+
+        if (filtered.length === 0) {
+          noResults.removeClass("d-none");
+          return;
         }
+        noResults.addClass("d-none");
 
-        function renderUserTable(filterText) {
-          const q = (filterText || "").toLowerCase();
-          const filtered = users.filter((u) =>
-            u.name.toLowerCase().includes(q)
+        filtered.forEach((user) => {
+          const initials = getInitials(user.name);
+          const item = `
+            <div class="user-list-item d-flex align-items-center justify-content-between flex-wrap gap-3">
+              <div class="d-flex align-items-center flex-grow-1">
+                <div class="user-avatar me-4">${initials}</div>
+                <div class="user-info">
+                  <h5>${user.name}</h5>
+                  <p class="mb-0"><strong>Email:</strong> ${user.email}</p>
+                  <p class="mb-0"><strong>Phone:</strong> ${user.phone}</p>
+                </div>
+              </div>
+              <a href="user-profile.html?id=${user.id}" class="btn view-btn flex-shrink-0">
+                <i class="bi bi-arrow-right me-2"></i>View Profile
+              </a>
+            </div>`;
+          list.append(item);
+        });
+      }
+
+      $(document).ready(function () {
+        renderUsers(users);
+
+        $("#user-search").on("input", function () {
+          const query = $(this).val().toLowerCase();
+          const filtered = users.filter(
+            (u) =>
+              u.name.toLowerCase().includes(query) ||
+              u.email.toLowerCase().includes(query) ||
+              u.phone.toLowerCase().includes(query) ||
+              u.fatherName.toLowerCase().includes(query)
           );
-
-          $("#userCountBadge").text(filtered.length + " users");
-          const $tbody = $("#userTableBody").empty();
-
-          if (!filtered.length) {
-            $tbody.append(
-              `<tr><td colspan="3" class="text-center text-muted py-4">No users found.</td></tr>`
-            );
-            return;
-          }
-
-          filtered.forEach((u) => {
-            const badge = u.status === "Active" ? "bg-success" : "bg-danger";
-            $tbody.append(`
-        <tr class="user-row" data-user-id="${escapeHtml(u.id)}">
-          <td>
-            <div class="fw-semibold">${escapeHtml(u.name)}</div>
-            <div class="text-muted small">${escapeHtml(u.phone)}</div>
-          </td>
-          <td class="mono">${escapeHtml(u.id)}</td>
-          <td><span class="badge ${badge}">${escapeHtml(u.status)}</span></td>
-        </tr>
-      `);
-          });
-        }
-
-        $("#userTableBody").on("click", ".user-row", function () {
-          const uid = $(this).data("user-id");
-          // Redirect to separate profile page with uid in URL
-          window.location.href =
-            "user-profile.html?uid=" + encodeURIComponent(uid);
+          renderUsers(filtered);
         });
-
-        $("#userSearch").on("input", function () {
-          renderUserTable($(this).val());
-        });
-        $("#btnClearSearch").on("click", function () {
-          $("#userSearch").val("");
-          renderUserTable("");
-        });
-
-        renderUserTable("");
       });
     </script>
   </body>

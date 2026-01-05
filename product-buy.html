@@ -6,312 +6,372 @@
     <title>Product Buy - Admin Panel</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --sidebar-w: 280px;
-      }
       body {
-        background: #f6f7fb;
-      }
-      .app-shell {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
       }
 
-      .sidebar {
-        width: var(--sidebar-w);
-        background: #0f172a;
-        color: #e2e8f0;
+      /* Top Navbar (new theme) */
+      .topbar {
+        background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       }
-      .sidebar .brand {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      .sidebar .nav-link {
-        color: #cbd5e1;
-        border-radius: 10px;
-        padding: 0.65rem 0.75rem;
-        margin: 0.15rem 0;
-      }
-      .sidebar .nav-link:hover {
-        background: rgba(255, 255, 255, 0.06);
+
+      .brand-wrap h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.5px;
         color: #fff;
+        line-height: 1.1;
       }
-      .sidebar .nav-link.active {
-        background: rgba(59, 130, 246, 0.22);
+      .brand-wrap p {
+        margin: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
         color: #fff;
       }
 
-      .content {
-        flex: 1;
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        white-space: nowrap;
       }
-      .page-header {
-        background: #ffffff;
-        border-bottom: 1px solid #e5e7eb;
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
       }
+      .navbar .nav-link i {
+        font-size: 1.15rem;
+      }
+      @media (max-width: 991.98px) {
+        .navbar .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
+      }
+
+      /* Main spacing under navbar */
+      .main-content {
+        padding: 40px 16px;
+      }
+      @media (min-width: 992px) {
+        .main-content {
+          padding: 40px;
+        }
+      }
+
+      /* New theme cards */
       .soft-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        background: #fff;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+      }
+
+      .page-head {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(8px);
+      }
+
+      .header-title {
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.4px;
       }
 
       .small-muted {
-        font-size: 0.92rem;
         color: #64748b;
+        font-size: 0.92rem;
       }
+
       .mono {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", "Courier New", monospace;
       }
+
       .req::after {
         content: " *";
         color: #dc3545;
+      }
+
+      /* Form premium look */
+      .form-control,
+      .form-select {
+        border-radius: 14px;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        box-shadow: none !important;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.18) !important;
+      }
+
+      .btn {
+        border-radius: 14px;
+      }
+
+      .primary-grad {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+      }
+      .primary-grad:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px rgba(99, 102, 241, 0.35);
+      }
+
+      .btn-soft {
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .badge-mode {
+        border-radius: 999px;
+        padding: 0.55rem 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.4px;
       }
     </style>
   </head>
 
   <body>
-    <div class="d-flex app-shell">
-      <!-- Sidebar (SAME STYLE AS USER TRACKING) -->
-      <aside class="sidebar d-flex flex-column p-3">
-        <div class="brand pb-3 mb-3">
-          <div class="d-flex align-items-center gap-2">
-            <div
-              class="rounded-circle bg-primary"
-              style="width: 38px; height: 38px"
-            ></div>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg topbar sticky-top">
+      <div class="container-fluid px-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+          <div class="brand-wrap">
+            <h3>Admin Panel</h3>
+            <p>Management System</p>
+          </div>
+        </a>
+
+        <button
+          class="navbar-toggler border-0 text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto gap-lg-2" id="topbarNav">
+            <li class="nav-item">
+              <a class="nav-link" href="usersTraking.html">
+                <i class="bi bi-people"></i> User Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-entry.html">
+                <i class="bi bi-ticket-perforated"></i> Lottery Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-drow.html">
+                <i class="bi bi-shuffle"></i> Lottery Draw
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-entry.html">
+                <i class="bi bi-box-seam"></i> Product Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-buy.html">
+                <i class="bi bi-cart"></i> Product Buy
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="invest-package-entry.html">
+                <i class="bi bi-wallet2"></i> Invest Package Entry
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="container-fluid">
+        <!-- Page header -->
+        <div class="page-head p-4 mb-4">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-3"
+          >
             <div>
-              <div class="fw-bold">Admin Panel</div>
-              <div class="small-muted">Bootstrap 5 + jQuery</div>
+              <div class="header-title fs-3 mb-1">Product Buy</div>
+              <div class="small-muted">
+                Create buying record and manage stock (demo)
+              </div>
             </div>
           </div>
         </div>
 
-        <nav class="nav nav-pills flex-column" id="sidebarNav">
-          <a class="nav-link" href="usersTraking.html">User Tracking</a>
-          <a class="nav-link" href="lotary-entry.html">Lottery Entry</a>
-          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
-          <a class="nav-link" href="product-entry.html">Product Entry</a>
-          <a class="nav-link active" href="product-buy.html">Product Buy</a>
-          <a class="nav-link" href="invest-package-entry.html"
-            >Invest Package Entry</a
-          >
-        </nav>
-
-        <div
-          class="mt-auto pt-3"
-          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
-        >
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <div class="fw-semibold">Session</div>
-              <div class="small-muted">Admin</div>
-            </div>
+        <!-- Buy Form -->
+        <div class="soft-card p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="fw-bold fs-5 text-dark">Buy Product Form</div>
             <span
-              class="badge rounded-pill"
-              style="
-                background: #eef2ff;
-                color: #3730a3;
-                border: 1px solid #e0e7ff;
-              "
-              >Online</span
+              class="badge bg-primary-subtle text-primary border border-primary-subtle mono badge-mode"
+              id="formMode"
+              >MODE: CREATE</span
             >
           </div>
-        </div>
-      </aside>
 
-      <!-- Content -->
-      <main class="content d-flex flex-column">
-        <div
-          class="page-header px-4 py-3 d-flex align-items-center justify-content-between"
-        >
-          <div>
-            <div class="fw-bold fs-5">Product Buy</div>
-            <div class="small-muted">
-              Create buying record and manage stock (demo)
-            </div>
-          </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary" id="btnSeedBuy">
-              Seed Demo Buy
-            </button>
-            <button class="btn btn-outline-danger" id="btnClearBuys">
-              Clear Buys
-            </button>
-          </div>
-        </div>
+          <form id="buyForm">
+            <input type="hidden" id="buyId" />
 
-        <div class="p-4 flex-grow-1">
-          <!-- Buy Form -->
-          <div class="soft-card bg-white p-3">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="fw-bold">Buy Product Form</div>
-              <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle mono"
-                id="formMode"
-                >MODE: CREATE</span
-              >
-            </div>
-
-            <form id="buyForm">
-              <input type="hidden" id="buyId" />
-
-              <div class="row g-3">
-                <div class="col-12 col-md-6">
-                  <label class="form-label req">Product</label>
-                  <select class="form-select" id="product_id">
-                    <option value="">Select product...</option>
-                  </select>
-                  <div class="small-muted mt-1">
-                    Products load from
-                    <span class="mono">admin_products_v1</span> (localStorage).
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">buying dates</label>
-                  <input class="form-control" id="buying_date" type="date" />
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">continue days</label>
-                  <input
-                    class="form-control"
-                    id="continue_days"
-                    type="number"
-                    min="0"
-                    placeholder="e.g. 30"
-                  />
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <label class="form-label req">expire datess</label>
-                  <input class="form-control" id="expire_date" type="date" />
-                  <div class="small-muted mt-1">
-                    Auto-calculated but editable.
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <label class="form-label req">product buy qnty</label>
-                  <input
-                    class="form-control"
-                    id="buy_qty"
-                    type="number"
-                    min="1"
-                    placeholder="e.g. 5"
-                  />
-                </div>
-
-                <div class="col-12 col-md-4">
-                  <label class="form-label req">product in stock</label>
-                  <input
-                    class="form-control"
-                    id="in_stock"
-                    type="number"
-                    min="0"
-                    placeholder="auto"
-                  />
-                  <div class="small-muted mt-1">
-                    Auto from product stock (demo).
-                  </div>
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">buying prices</label>
-                  <input
-                    class="form-control"
-                    id="buying_price"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label req">selling pricess</label>
-                  <input
-                    class="form-control"
-                    id="selling_price"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-
-                <div class="col-12 col-md-3">
-                  <label class="form-label">discount price</label>
-                  <input
-                    class="form-control"
-                    id="discount_price"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label req">Product</label>
+                <select class="form-select" id="product_id">
+                  <option value="">Select product...</option>
+                </select>
+                <div class="small-muted mt-1">
+                  Products load from
+                  <span class="mono">admin_products_v1</span> (localStorage).
                 </div>
               </div>
 
-              <div class="d-flex gap-2 mt-4">
-                <button class="btn btn-primary" type="submit">Save Buy</button>
-                <button
-                  class="btn btn-outline-secondary"
-                  type="button"
-                  id="btnReset"
-                >
-                  Reset
-                </button>
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Buying Date</label>
+                <input class="form-control" id="buying_date" type="date" />
               </div>
-            </form>
-          </div>
 
-          <!-- Buys List -->
-          <!-- <div class="soft-card bg-white p-3 mt-4">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <div class="fw-bold">Buy History</div>
-              <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle"
-                id="buyCount"
-                >0</span
-              >
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Continue Days</label>
+                <input
+                  class="form-control"
+                  id="continue_days"
+                  type="number"
+                  min="0"
+                  placeholder="e.g. 30"
+                />
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label class="form-label req">Expire Date</label>
+                <input class="form-control" id="expire_date" type="date" />
+                <div class="small-muted mt-1">
+                  Auto-calculated but editable.
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label class="form-label req">Buy Quantity</label>
+                <input
+                  class="form-control"
+                  id="buy_qty"
+                  type="number"
+                  min="1"
+                  placeholder="e.g. 5"
+                />
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label class="form-label req">Product In Stock</label>
+                <input
+                  class="form-control"
+                  id="in_stock"
+                  type="number"
+                  min="0"
+                  placeholder="auto"
+                />
+                <div class="small-muted mt-1">
+                  Auto from product stock (demo).
+                </div>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Buying Price</label>
+                <input
+                  class="form-control"
+                  id="buying_price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label class="form-label req">Selling Price</label>
+                <input
+                  class="form-control"
+                  id="selling_price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label class="form-label">Discount Price</label>
+                <input
+                  class="form-control"
+                  id="discount_price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                />
+              </div>
             </div>
 
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead>
-                  <tr class="text-nowrap">
-                    <th>Buy ID</th>
-                    <th>Product</th>
-                    <th>Buying Date</th>
-                    <th>Expire</th>
-                    <th>Qty</th>
-                    <th>Buy Price</th>
-                    <th>Selling</th>
-                    <th>Discount</th>
-                    <th>Net</th>
-                    <th class="text-end">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="buyTbody"></tbody>
-              </table>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button class="btn primary-grad" type="submit">
+                <i class="bi bi-save2 me-2"></i>Save Buy
+              </button>
+              <button class="btn btn-soft" type="button" id="btnReset">
+                <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+              </button>
             </div>
-          </div> -->
+          </form>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
       $(function () {
-        // active link highlight
-        const page = (
-          location.pathname.split("/").pop() || "users.html"
-        ).toLowerCase();
-        $("#sidebarNav .nav-link").each(function () {
-          const href = ($(this).attr("href") || "").toLowerCase();
-          if (href === page) $(this).addClass("active");
-        });
+        // active link highlight (top navbar)
+        const page = (location.pathname.split("/").pop() || "").toLowerCase();
+        $("#topbarNav .nav-link")
+          .removeClass("active")
+          .each(function () {
+            const href = ($(this).attr("href") || "").toLowerCase();
+            if (href === page) $(this).addClass("active");
+          });
 
         const PRODUCT_KEY = "admin_products_v1";
         const BUY_KEY = "admin_buys_v1";
@@ -371,11 +431,6 @@
           });
         }
 
-        function getProductNameById(pid) {
-          const p = loadProducts().find((x) => x.id === pid);
-          return p ? p.product_name : "—";
-        }
-
         function calcExpireDate(buyDateStr, days) {
           if (
             !buyDateStr ||
@@ -396,21 +451,17 @@
         function updateNetSelling() {
           const selling = Number($("#selling_price").val());
           const discount = Number($("#discount_price").val() || 0);
-          if (Number.isNaN(selling)) {
-            $("#net_selling").val("");
-            return;
-          }
+          if (Number.isNaN(selling)) return;
           const net = Math.max(
             0,
             selling - (Number.isNaN(discount) ? 0 : discount)
           );
-          $("#net_selling").val(money(net));
+          // no net field in your form right now; kept for future
         }
 
         function resetForm() {
           $("#buyId").val("");
           $("#buyForm")[0].reset();
-          $("#net_selling").val("");
           $("#formMode").text("MODE: CREATE");
         }
 
@@ -429,6 +480,7 @@
             typeof p.price !== "undefined"
           )
             $("#selling_price").val(p.price);
+
           if (
             $("#buying_price").val().trim() === "" &&
             typeof p.supplier_price !== "undefined"
@@ -467,8 +519,10 @@
               return false;
             }
           }
+
           const qty = Number($("#buy_qty").val());
           const stock = Number($("#in_stock").val());
+
           if (Number.isNaN(qty) || qty <= 0) {
             alert("Buy quantity must be > 0");
             return false;
@@ -478,47 +532,6 @@
             return false;
           }
           return true;
-        }
-
-        function renderBuys() {
-          const buys = loadBuys();
-          $("#buyCount").text(buys.length);
-
-          const $tb = $("#buyTbody").empty();
-          if (!buys.length) {
-            $tb.append(
-              `<tr><td colspan="10" class="text-center text-muted py-4">No buys yet.</td></tr>`
-            );
-            return;
-          }
-
-          buys.forEach((b) => {
-            const net = Math.max(
-              0,
-              Number(b.selling_price) - Number(b.discount_price || 0)
-            );
-            $tb.append(`
-        <tr>
-          <td class="mono">${b.id}</td>
-          <td>${getProductNameById(b.product_id)}</td>
-          <td>${b.buying_date}</td>
-          <td>${b.expire_date}</td>
-          <td>${b.buy_qty}</td>
-          <td>${money(b.buying_price)}</td>
-          <td>${money(b.selling_price)}</td>
-          <td>${money(b.discount_price || 0)}</td>
-          <td>${money(net)}</td>
-          <td class="text-end text-nowrap">
-            <button class="btn btn-outline-primary btn-sm btnEdit" data-id="${
-              b.id
-            }">Edit</button>
-            <button class="btn btn-outline-danger btn-sm btnDel" data-id="${
-              b.id
-            }">Delete</button>
-          </td>
-        </tr>
-      `);
-          });
         }
 
         $("#buyForm").on("submit", function (e) {
@@ -577,57 +590,6 @@
           }
 
           refreshProductDropdown();
-          renderBuys();
-          resetForm();
-        });
-
-        $("#buyTbody").on("click", ".btnEdit", function () {
-          const id = $(this).data("id");
-          const b = loadBuys().find((x) => x.id === id);
-          if (!b) return;
-
-          $("#buyId").val(b.id);
-          $("#product_id").val(b.product_id);
-          $("#buying_date").val(b.buying_date);
-          $("#continue_days").val(b.continue_days);
-          $("#expire_date").val(b.expire_date);
-          $("#buy_qty").val(b.buy_qty);
-          $("#in_stock").val(b.in_stock);
-          $("#buying_price").val(b.buying_price);
-          $("#selling_price").val(b.selling_price);
-          $("#discount_price").val(b.discount_price);
-
-          $("#formMode").text("MODE: EDIT");
-          updateNetSelling();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-
-        $("#buyTbody").on("click", ".btnDel", function () {
-          const id = $(this).data("id");
-          if (!confirm("Delete this buy record?")) return;
-
-          const buys = loadBuys();
-          const b = buys.find((x) => x.id === id);
-
-          if (b) {
-            const products = loadProducts();
-            const pIdx = products.findIndex((p) => p.id === b.product_id);
-            if (pIdx !== -1) {
-              const currentStock =
-                typeof products[pIdx].stock === "number"
-                  ? products[pIdx].stock
-                  : 0;
-              products[pIdx].stock = Math.max(
-                0,
-                currentStock - Number(b.buy_qty)
-              );
-              saveProducts(products);
-            }
-          }
-
-          saveBuys(buys.filter((x) => x.id !== id));
-          refreshProductDropdown();
-          renderBuys();
           resetForm();
         });
 
@@ -636,8 +598,8 @@
         $("#btnClearBuys").on("click", function () {
           if (!confirm("Clear all buy history?")) return;
           localStorage.removeItem(BUY_KEY);
-          renderBuys();
           resetForm();
+          alert("Cleared!");
         });
 
         $("#btnSeedBuy").on("click", function () {
@@ -671,14 +633,13 @@
 
           localStorage.setItem(BUY_KEY, JSON.stringify(buys));
           refreshProductDropdown();
-          renderBuys();
           resetForm();
           alert("Seeded demo buy.");
         });
 
+        // init
         ensureStockFieldExists();
         refreshProductDropdown();
-        renderBuys();
         resetForm();
       });
     </script>

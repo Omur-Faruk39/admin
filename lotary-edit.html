@@ -6,120 +6,281 @@
     <title>Edit Lottery - Admin Panel</title>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
 
     <style>
-      :root {
-        --sidebar-w: 280px;
-      }
       body {
-        background: #f6f7fb;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        min-height: 100vh;
+        font-family: "Segoe UI", sans-serif;
       }
-      .sidebar {
-        width: var(--sidebar-w);
-        background: #0f172a;
-        color: #e2e8f0;
+
+      /* Top Navbar (new theme) */
+      .topbar {
+        background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       }
-      .sidebar .nav-link {
-        color: #cbd5e1;
-        border-radius: 10px;
-        padding: 0.65rem 0.75rem;
-        margin: 0.15rem 0;
+
+      .brand-wrap h3 {
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: #fff;
+        line-height: 1.1;
       }
-      .sidebar .nav-link:hover {
-        background: rgba(255, 255, 255, 0.06);
+      .brand-wrap p {
+        margin: 0;
+        font-size: 0.8rem;
+        opacity: 0.8;
         color: #fff;
       }
-      .sidebar .nav-link.active {
-        background: rgba(59, 130, 246, 0.22);
-        color: #fff;
+
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        white-space: nowrap;
       }
-      .soft-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      .navbar .nav-link:hover,
+      .navbar .nav-link.active {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      }
+      .navbar .nav-link i {
+        font-size: 1.15rem;
+      }
+      @media (max-width: 991.98px) {
+        .navbar .nav-link {
+          width: 100%;
+          justify-content: flex-start;
+          padding: 12px 14px;
+        }
+      }
+
+      /* Main spacing */
+      .main-content {
+        padding: 40px 16px;
+      }
+      @media (min-width: 992px) {
+        .main-content {
+          padding: 40px;
+        }
+      }
+
+      /* Page header */
+      .page-head {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 22px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+        backdrop-filter: blur(8px);
+      }
+      .header-title {
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.4px;
       }
       .small-muted {
-        font-size: 0.92rem;
         color: #64748b;
+        font-size: 0.92rem;
       }
       .mono {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", "Courier New", monospace;
       }
+
+      /* Card */
+      .soft-card {
+        background: #fff;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 22px;
+        box-shadow: 0 14px 40px rgba(2, 6, 23, 0.08);
+        overflow: hidden;
+      }
+
+      /* Card header */
+      .card-top {
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.08),
+          rgba(139, 92, 246, 0.06)
+        );
+      }
+
+      /* Form field wrapper */
+      .field {
+        background: rgba(248, 250, 252, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 18px;
+        padding: 14px 14px;
+        transition: 0.25s ease;
+        height: 100%;
+      }
+      .field:focus-within {
+        background: #fff;
+        border-color: rgba(99, 102, 241, 0.75);
+        box-shadow: 0 0 0 0.22rem rgba(99, 102, 241, 0.14);
+        transform: translateY(-1px);
+      }
+
+      .field label {
+        font-weight: 700;
+        color: #0f172a;
+        font-size: 0.92rem;
+        margin-bottom: 8px;
+      }
+
+      .form-control {
+        border-radius: 14px;
+        padding: 0.9rem 0.95rem;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        box-shadow: none !important;
+      }
+      .form-control:focus {
+        border-color: rgba(99, 102, 241, 0.9);
+        box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.18) !important;
+      }
+
+      /* Buttons */
+      .btn {
+        border-radius: 14px;
+      }
+      .primary-grad {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        padding: 0.85rem 1.1rem;
+      }
+      .primary-grad:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 28px rgba(99, 102, 241, 0.35);
+      }
+      .btn-soft {
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        background: rgba(255, 255, 255, 0.85);
+        padding: 0.85rem 1.1rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 575.98px) {
+        .main-content {
+          padding: 22px 12px;
+        }
+        .primary-grad,
+        .btn-soft,
+        .btn-danger {
+          width: 100%;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <div class="d-flex min-vh-100">
-      <!-- Sidebar -->
-      <aside class="sidebar d-flex flex-column p-3">
-        <div class="brand pb-3 mb-3">
-          <div class="d-flex align-items-center gap-2">
-            <div
-              class="rounded-circle bg-primary"
-              style="width: 38px; height: 38px"
-            ></div>
-            <div>
-              <div class="fw-bold">Admin Panel</div>
-              <div class="small-muted">Bootstrap 5 + jQuery</div>
-            </div>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg topbar sticky-top">
+      <div class="container-fluid px-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+          <div class="brand-wrap">
+            <h3>Admin Panel</h3>
+            <p>Management System</p>
           </div>
-        </div>
+        </a>
 
-        <nav class="nav nav-pills flex-column" id="sidebarNav">
-          <a class="nav-link" href="usersTraking.html">User Tracking</a>
-          <a class="nav-link active" href="lotary-entry.html">Lottery Entry</a>
-          <a class="nav-link" href="lotary-drow.html">Lottery Draw</a>
-          <a class="nav-link" href="product-entry.html">Product Entry</a>
-          <a class="nav-link" href="product-buy.html">Product Buy</a>
-          <a class="nav-link" href="invest-package-entry.html"
-            >Invest Package Entry</a
+        <button
+          class="navbar-toggler border-0 text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="bi bi-list fs-2"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+          <ul class="navbar-nav ms-auto gap-lg-2" id="topbarNav">
+            <li class="nav-item">
+              <a class="nav-link" href="usersTraking.html">
+                <i class="bi bi-people"></i> User Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-entry.html">
+                <i class="bi bi-ticket-perforated"></i> Lottery Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="lotary-drow.html">
+                <i class="bi bi-shuffle"></i> Lottery Draw
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-entry.html">
+                <i class="bi bi-box-seam"></i> Product Entry
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="product-buy.html">
+                <i class="bi bi-cart"></i> Product Buy
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="invest-package-entry.html">
+                <i class="bi bi-wallet2"></i> Invest Package Entry
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="container-fluid">
+        <!-- Page header -->
+        <div class="page-head p-4 mb-4">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between gap-3"
           >
-        </nav>
-
-        <div
-          class="mt-auto pt-3"
-          style="border-top: 1px solid rgba(255, 255, 255, 0.08)"
-        >
-          <div class="d-flex justify-content-between align-items-center">
             <div>
-              <div class="fw-semibold">Session</div>
-              <div class="small-muted">Admin</div>
+              <div class="header-title fs-3 mb-1">Edit Lottery</div>
+              <div class="small-muted">
+                Update lottery values (Start Date is not editable)
+              </div>
             </div>
-            <span
-              class="badge rounded-pill"
-              style="
-                background: #eef2ff;
-                color: #3730a3;
-                border: 1px solid #e0e7ff;
-              "
-              >Online</span
-            >
+            <div class="mono small text-muted">
+              ID: <span id="lotIdText">—</span>
+            </div>
           </div>
         </div>
-      </aside>
 
-      <!-- Main -->
-      <main class="flex-grow-1">
-        <div
-          class="bg-white border-bottom px-4 py-3 d-flex align-items-center justify-content-between"
-        >
-          <div>
-            <div class="fw-bold fs-5">Edit Lottery</div>
+        <div class="soft-card">
+          <div class="card-top">
+            <div class="fw-bold text-dark">Edit Form</div>
             <div class="small-muted">
-              Update lottery values (Start Date is not editable)
+              Update name, price, description & expire date
             </div>
           </div>
-          <div class="mono small text-muted">
-            ID: <span id="lotIdText">—</span>
-          </div>
-        </div>
 
-        <div class="p-4">
-          <div class="soft-card bg-white p-3">
+          <div class="p-4">
+            <!-- Not found panel -->
             <div id="notFound" class="d-none">
               <div
                 class="p-4 rounded-4"
@@ -129,58 +290,74 @@
                 <div class="small-muted">
                   Invalid id, go back and select a lottery again.
                 </div>
-                <a class="btn btn-primary mt-3" href="lotary-entry.html"
-                  >Back</a
-                >
+                <a class="btn primary-grad mt-3" href="lotary-entry.html">
+                  <i class="bi bi-arrow-left me-2"></i>Back
+                </a>
               </div>
             </div>
 
+            <!-- Edit panel -->
             <div id="editPanel" class="d-none">
               <div class="row g-3">
                 <div class="col-12 col-md-6">
-                  <label class="form-label">Lottery Name</label>
-                  <input class="form-control" id="editName" />
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="form-label">Ticket Price</label>
-                  <input
-                    class="form-control"
-                    id="editPrice"
-                    type="number"
-                    min="0"
-                  />
-                </div>
-                <div class="col-12">
-                  <label class="form-label">Lottery Description</label>
-                  <textarea
-                    class="form-control"
-                    id="editDesc"
-                    rows="3"
-                  ></textarea>
-                </div>
-
-                <!-- Start date: NOT editable input -->
-                <div class="col-12 col-md-6">
-                  <label class="form-label">Start Date (Locked)</label>
-                  <input class="form-control" id="startLocked" disabled />
-                  <div class="small text-muted mt-1">
-                    Start date is shown but not editable.
+                  <div class="field">
+                    <label class="form-label">Lottery Name</label>
+                    <input class="form-control" id="editName" />
                   </div>
                 </div>
 
                 <div class="col-12 col-md-6">
-                  <label class="form-label">Expire Date</label>
-                  <input class="form-control" id="editExpire" type="date" />
+                  <div class="field">
+                    <label class="form-label">Ticket Price</label>
+                    <input
+                      class="form-control"
+                      id="editPrice"
+                      type="number"
+                      min="0"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="field">
+                    <label class="form-label">Lottery Description</label>
+                    <textarea
+                      class="form-control"
+                      id="editDesc"
+                      rows="3"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <!-- Start date locked -->
+                <div class="col-12 col-md-6">
+                  <div class="field">
+                    <label class="form-label">Start Date (Locked)</label>
+                    <input class="form-control" id="startLocked" disabled />
+                    <div class="small text-muted mt-1">
+                      Start date is shown but not editable.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="field">
+                    <label class="form-label">Expire Date</label>
+                    <input class="form-control" id="editExpire" type="date" />
+                  </div>
                 </div>
               </div>
 
-              <div class="d-flex gap-2 mt-4">
-                <button class="btn btn-primary" id="btnSave">
-                  Save Changes
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <button class="btn primary-grad" id="btnSave">
+                  <i class="bi bi-save2 me-2"></i>Save Changes
                 </button>
-                <button class="btn btn-outline-danger" id="btnDelete">
-                  Delete
+                <button class="btn btn-danger px-4" id="btnDelete">
+                  <i class="bi bi-trash3 me-2"></i>Delete
                 </button>
+                <a class="btn btn-soft" href="lotary-entry.html">
+                  <i class="bi bi-arrow-left me-2"></i>Back
+                </a>
               </div>
 
               <div class="alert alert-warning mt-3 mb-0 small">
@@ -189,12 +366,23 @@
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
       $(function () {
+        // active link highlight (top navbar)
+        const page = (location.pathname.split("/").pop() || "").toLowerCase();
+        $("#topbarNav .nav-link")
+          .removeClass("active")
+          .each(function () {
+            const href = ($(this).attr("href") || "").toLowerCase();
+            if (href === page) $(this).addClass("active");
+          });
+
         const STORAGE_KEY = "admin_lotteries_v1";
 
         function getParam(name) {
@@ -232,7 +420,7 @@
         const lot = list[idx];
         $("#editPanel").removeClass("d-none");
 
-        // Fill form (no start date edit; only show locked)
+        // Fill form (start date locked)
         $("#editName").val(lot.name);
         $("#editDesc").val(lot.description);
         $("#startLocked").val(lot.startDate || "");
@@ -261,8 +449,6 @@
 
           saveLotteries(list);
           alert("Saved!");
-          // Optionally go back
-          // window.location.href = "lotary-entry.html";
         });
 
         $("#btnDelete").on("click", function () {
